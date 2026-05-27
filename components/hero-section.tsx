@@ -1,0 +1,88 @@
+import Link from "next/link"
+import { ArrowDown, Mail } from "lucide-react"
+
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { education, profile, socialLinks } from "@/lib/portfolio-data"
+
+export function HeroSection() {
+  return (
+    <section id="home" className="scroll-mt-24 border-b">
+      <div className="mx-auto grid min-h-[calc(100vh-4rem)] w-full max-w-6xl items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1.15fr_0.85fr] lg:py-20">
+        <div className="max-w-3xl">
+          <Badge variant="outline" className="rounded-lg px-3 py-1">
+            Skills Showcase
+          </Badge>
+          <h1 className="mt-6 text-5xl font-semibold tracking-tight text-balance sm:text-6xl lg:text-7xl">
+            {profile.name}
+          </h1>
+          <p className="mt-5 text-xl font-medium text-foreground/80 sm:text-2xl">
+            {profile.title}
+          </p>
+          <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
+            {profile.tagline} I am shaping a portfolio that connects practical
+            software skills with a clean, personal web presence.
+          </p>
+
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <Button size="lg" render={<Link href="#projects" />}>
+              View Projects
+              <ArrowDown aria-hidden="true" />
+            </Button>
+            <Button variant="outline" size="lg" render={<Link href="#contact" />}>
+              Contact Me
+              <Mail aria-hidden="true" />
+            </Button>
+          </div>
+
+          <div className="mt-8 flex flex-wrap gap-2">
+            {socialLinks.map((link) => (
+              <Button
+                key={link.href}
+                variant="ghost"
+                size="sm"
+                render={<Link href={link.href} />}
+              >
+                {link.label}
+              </Button>
+            ))}
+          </div>
+        </div>
+
+        <Card className="border-foreground/10 bg-card/90 shadow-sm">
+          <CardHeader>
+            <CardTitle>Portfolio skeleton</CardTitle>
+            <CardDescription>
+              A clean foundation for the full showcase experience.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="rounded-xl border bg-muted/40 p-4">
+              <p className="text-sm font-medium">{education.program}</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                {education.year} at {education.school}
+              </p>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+              {["Next.js", "shadcn/ui", "Dark mode", "Vercel"].map((item) => (
+                <div
+                  key={item}
+                  className="rounded-lg border bg-background px-3 py-2 text-sm font-medium"
+                >
+                  {item}
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </section>
+  )
+}
