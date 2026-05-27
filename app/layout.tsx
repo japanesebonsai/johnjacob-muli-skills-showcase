@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 
+import "leaflet/dist/leaflet.css";
 import "./globals.css";
 
 const geistSans = Geist({

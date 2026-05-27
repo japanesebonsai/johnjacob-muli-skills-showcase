@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { ArrowDown, Mail } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
@@ -15,7 +16,7 @@ import { education, profile, socialLinks } from "@/lib/portfolio-data"
 export function HeroSection() {
   return (
     <section id="home" className="scroll-mt-24 border-b">
-      <div className="mx-auto grid min-h-[calc(100vh-4rem)] w-full max-w-6xl items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1.15fr_0.85fr] lg:py-20">
+      <div className="mx-auto grid min-h-[calc(100vh-4rem)] w-full max-w-6xl items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1.3fr_0.7fr] lg:py-20">
         <div className="max-w-3xl">
           <Badge variant="outline" className="rounded-lg px-3 py-1">
             Skills Showcase
@@ -56,30 +57,32 @@ export function HeroSection() {
           </div>
         </div>
 
-        <Card className="border-foreground/10 bg-card/90 shadow-sm">
+        <Card className="mx-auto w-full max-w-64 border-foreground/10 bg-card/90 p-2 shadow-sm sm:max-w-72">
+          <div className="relative aspect-[4/5] overflow-hidden rounded-xl border bg-muted">
+            <Image
+              src={profile.profileImage}
+              alt="Portrait of John Jacob Muli"
+              fill
+              priority
+              sizes="(min-width: 1024px) 420px, 90vw"
+              className="object-cover object-[50%_38%]"
+            />
+          </div>
           <CardHeader>
-            <CardTitle>Portfolio skeleton</CardTitle>
+            <CardTitle>{education.program}</CardTitle>
             <CardDescription>
-              A clean foundation for the full showcase experience.
+              {education.year} at {education.school}
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="rounded-xl border bg-muted/40 p-4">
-              <p className="text-sm font-medium">{education.program}</p>
-              <p className="mt-1 text-sm text-muted-foreground">
-                {education.year} at {education.school}
-              </p>
-            </div>
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-              {["Next.js", "shadcn/ui", "Dark mode", "Vercel"].map((item) => (
-                <div
-                  key={item}
-                  className="rounded-lg border bg-background px-3 py-2 text-sm font-medium"
-                >
-                  {item}
-                </div>
-              ))}
-            </div>
+          <CardContent className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+            {["Next.js", "shadcn/ui", "Dark mode", "Vercel"].map((item) => (
+              <div
+                key={item}
+                className="rounded-lg border bg-background px-3 py-2 text-sm font-medium"
+              >
+                {item}
+              </div>
+            ))}
           </CardContent>
         </Card>
       </div>

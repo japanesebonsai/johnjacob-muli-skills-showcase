@@ -1,8 +1,8 @@
 import { AboutSection } from "@/components/about-section"
+import { EducationSection } from "@/components/education-section"
 import { HeroSection } from "@/components/hero-section"
 import {
   ContactPlaceholder,
-  EducationPlaceholder,
   ProjectsPlaceholder,
   SkillsPlaceholder,
 } from "@/components/placeholder-sections"
@@ -16,7 +16,7 @@ export default function Home() {
       <main>
         <HeroSection />
         <AboutSection />
-        <EducationPlaceholder />
+        <EducationSection />
         <SkillsPlaceholder />
         <ProjectsPlaceholder />
         <ContactPlaceholder />

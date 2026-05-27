@@ -7,37 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { SectionShell } from "@/components/section-shell"
-import { education, projects, skillGroups } from "@/lib/portfolio-data"
-
-export function EducationPlaceholder() {
-  return (
-    <SectionShell
-      id="education"
-      eyebrow="Education"
-      title="Campus story, mapped."
-      description="The next increment adds an interactive CIT-U map with a clickable school pin and detail card."
-    >
-      <Card className="border-foreground/10 shadow-sm">
-        <CardHeader>
-          <CardTitle>{education.school}</CardTitle>
-          <CardDescription>
-            {education.program}, {education.year} - {education.locationLabel}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid min-h-64 place-items-center rounded-xl border border-dashed bg-muted/40 p-6 text-center">
-            <div>
-              <p className="text-sm font-medium">Interactive map placeholder</p>
-              <p className="mt-2 max-w-md text-sm text-muted-foreground">
-                Leaflet and OpenStreetMap will live here in the next increment.
-              </p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    </SectionShell>
-  )
-}
+import { projects, skillGroups } from "@/lib/portfolio-data"
 
 export function SkillsPlaceholder() {
   return (

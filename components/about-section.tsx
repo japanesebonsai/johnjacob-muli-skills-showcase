@@ -2,7 +2,6 @@ import { Code2, Layers, Sparkles } from "lucide-react"
 
 import {
   Card,
-  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
@@ -51,11 +50,6 @@ export function AboutSection() {
                 <CardTitle>{area.title}</CardTitle>
                 <CardDescription>{area.description}</CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="h-1.5 rounded-full bg-muted">
-                  <div className="h-full w-2/3 rounded-full bg-[var(--portfolio-warm)]" />
-                </div>
-              </CardContent>
             </Card>
           )
         })}
