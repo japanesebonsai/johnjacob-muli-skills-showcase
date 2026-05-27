@@ -2,6 +2,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { ArrowDown, Mail } from "lucide-react"
 
+import { AnimatedSection } from "@/components/animated-section"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -17,7 +18,7 @@ export function HeroSection() {
   return (
     <section id="home" className="scroll-mt-24 border-b">
       <div className="mx-auto grid min-h-[calc(100vh-4rem)] w-full max-w-6xl items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1.3fr_0.7fr] lg:py-20">
-        <div className="max-w-3xl">
+        <AnimatedSection className="max-w-3xl">
           <Badge variant="outline" className="rounded-lg px-3 py-1">
             Skills Showcase
           </Badge>
@@ -65,9 +66,10 @@ export function HeroSection() {
               </Button>
             ))}
           </div>
-        </div>
+        </AnimatedSection>
 
-        <Card className="mx-auto w-full max-w-64 border-foreground/10 bg-card/90 p-2 shadow-sm sm:max-w-72">
+        <AnimatedSection delay={0.12}>
+          <Card className="mx-auto w-full max-w-64 border-foreground/10 bg-card/90 p-2 shadow-sm sm:max-w-72">
           <div className="relative aspect-[4/5] overflow-hidden rounded-xl border bg-muted">
             <Image
               src={profile.profileImage}
@@ -94,7 +96,8 @@ export function HeroSection() {
               </div>
             ))}
           </CardContent>
-        </Card>
+          </Card>
+        </AnimatedSection>
       </div>
     </section>
   )

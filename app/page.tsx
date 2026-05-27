@@ -1,7 +1,7 @@
 import { AboutSection } from "@/components/about-section"
+import { ContactSection } from "@/components/contact-section"
 import { EducationSection } from "@/components/education-section"
 import { HeroSection } from "@/components/hero-section"
-import { ContactPlaceholder } from "@/components/placeholder-sections"
 import { ProjectsSection } from "@/components/projects-section"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
@@ -17,7 +17,7 @@ export default function Home() {
         <EducationSection />
         <SkillsSection />
         <ProjectsSection />
-        <ContactPlaceholder />
+        <ContactSection />
       </main>
       <SiteFooter />
     </div>

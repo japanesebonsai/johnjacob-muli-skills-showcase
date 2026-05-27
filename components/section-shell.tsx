@@ -1,5 +1,6 @@
 import type { ReactNode } from "react"
 
+import { AnimatedSection } from "@/components/animated-section"
 import { cn } from "@/lib/utils"
 
 type SectionShellProps = {
@@ -24,7 +25,7 @@ export function SectionShell({
       id={id}
       className={cn("scroll-mt-24 py-16 sm:py-20", className)}
     >
-      <div className="mx-auto grid w-full max-w-6xl gap-8 px-4 sm:px-6 lg:grid-cols-[0.75fr_1.25fr]">
+      <AnimatedSection className="mx-auto grid w-full max-w-6xl gap-8 px-4 sm:px-6 lg:grid-cols-[0.75fr_1.25fr]">
         <div className="max-w-sm">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
             {eyebrow}
@@ -39,7 +40,7 @@ export function SectionShell({
           ) : null}
         </div>
         <div>{children}</div>
-      </div>
+      </AnimatedSection>
     </section>
   )
 }

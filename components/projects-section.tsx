@@ -24,7 +24,7 @@ export function ProjectsSection() {
         {projects.map((project, index) => (
           <Card
             key={project.title}
-            className="border-foreground/10 shadow-sm transition-transform hover:-translate-y-1"
+            className="border-foreground/10 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-md"
           >
             <CardHeader>
               <div className="mb-4 flex items-center justify-between gap-3">

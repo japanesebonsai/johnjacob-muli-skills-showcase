@@ -2,6 +2,7 @@ import Link from "next/link"
 import { ArrowUpRight } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
+import { ThemeToggle } from "@/components/theme-toggle"
 import { socialLinks } from "@/lib/portfolio-data"
 
 const navItems = [
@@ -46,17 +47,20 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        {github ? (
-          <Button
-            variant="outline"
-            size="sm"
-            nativeButton={false}
-            render={<Link href={github.href} />}
-          >
-            GitHub
-            <ArrowUpRight aria-hidden="true" />
-          </Button>
-        ) : null}
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          {github ? (
+            <Button
+              variant="outline"
+              size="sm"
+              nativeButton={false}
+              render={<Link href={github.href} />}
+            >
+              <span className="hidden sm:inline">GitHub</span>
+              <ArrowUpRight aria-hidden="true" />
+            </Button>
+          ) : null}
+        </div>
       </div>
     </header>
   )

@@ -59,7 +59,10 @@ export function SkillsSection() {
           const Icon = groupIcons[group.label]
 
           return (
-            <Card key={group.label} className="border-foreground/10 shadow-sm">
+            <Card
+              key={group.label}
+              className="border-foreground/10 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-md"
+            >
               <CardHeader>
                 <div className="flex items-start justify-between gap-4">
                   <div>
