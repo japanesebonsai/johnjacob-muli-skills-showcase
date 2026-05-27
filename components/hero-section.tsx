@@ -33,11 +33,20 @@ export function HeroSection() {
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Button size="lg" render={<Link href="#projects" />}>
+            <Button
+              size="lg"
+              nativeButton={false}
+              render={<Link href="#projects" />}
+            >
               View Projects
               <ArrowDown aria-hidden="true" />
             </Button>
-            <Button variant="outline" size="lg" render={<Link href="#contact" />}>
+            <Button
+              variant="outline"
+              size="lg"
+              nativeButton={false}
+              render={<Link href="#contact" />}
+            >
               Contact Me
               <Mail aria-hidden="true" />
             </Button>
@@ -49,6 +58,7 @@ export function HeroSection() {
                 key={link.href}
                 variant="ghost"
                 size="sm"
+                nativeButton={false}
                 render={<Link href={link.href} />}
               >
                 {link.label}

@@ -38,6 +38,7 @@ export function SiteHeader() {
               key={item.href}
               variant="ghost"
               size="sm"
+              nativeButton={false}
               render={<Link href={item.href} />}
             >
               {item.label}
@@ -46,7 +47,12 @@ export function SiteHeader() {
         </nav>
 
         {github ? (
-          <Button variant="outline" size="sm" render={<Link href={github.href} />}>
+          <Button
+            variant="outline"
+            size="sm"
+            nativeButton={false}
+            render={<Link href={github.href} />}
+          >
             GitHub
             <ArrowUpRight aria-hidden="true" />
           </Button>

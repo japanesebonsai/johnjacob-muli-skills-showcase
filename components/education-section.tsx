@@ -38,6 +38,7 @@ export function EducationSection() {
             <Button
               variant="outline"
               size="sm"
+              nativeButton={false}
               render={<Link href={education.website} />}
             >
               Visit CIT-U

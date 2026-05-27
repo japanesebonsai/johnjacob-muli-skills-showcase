@@ -1,13 +1,11 @@
 import { AboutSection } from "@/components/about-section"
 import { EducationSection } from "@/components/education-section"
 import { HeroSection } from "@/components/hero-section"
-import {
-  ContactPlaceholder,
-  ProjectsPlaceholder,
-  SkillsPlaceholder,
-} from "@/components/placeholder-sections"
+import { ContactPlaceholder } from "@/components/placeholder-sections"
+import { ProjectsSection } from "@/components/projects-section"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
+import { SkillsSection } from "@/components/skills-section"
 
 export default function Home() {
   return (
@@ -17,8 +15,8 @@ export default function Home() {
         <HeroSection />
         <AboutSection />
         <EducationSection />
-        <SkillsPlaceholder />
-        <ProjectsPlaceholder />
+        <SkillsSection />
+        <ProjectsSection />
         <ContactPlaceholder />
       </main>
       <SiteFooter />

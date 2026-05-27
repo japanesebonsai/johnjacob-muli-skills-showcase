@@ -96,7 +96,11 @@ export function EducationMap() {
               A Cebu City university known for engineering, technology, business,
               and innovation.
             </p>
-            <Button size="sm" render={<a href={education.website} />}>
+            <Button
+              size="sm"
+              nativeButton={false}
+              render={<a href={education.website} />}
+            >
               Visit CIT-U
             </Button>
           </div>
