@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# John Jacob Muli Skills Showcase
+
+A personal portfolio website built for the IT & Operations Web Development Intern Skills Showcase Challenge. It introduces John Jacob Muli as a student developer and highlights education, skills, project placeholders, and contact details in a responsive single-page experience.
+
+## Live Website
+
+Deployment link: _Add the Vercel URL here after deployment._
+
+## Features
+
+- Responsive single-page portfolio
+- Smooth section navigation
+- Personal hero section with profile photo
+- Education section with an interactive CIT-U map
+- Grouped skills section with local SVG tech logos
+- Two editable project placeholder cards
+- Contact form with validation and success/error toast feedback
+- Dark mode toggle with saved preference
+- Subtle scroll and hover animations
+
+## Tech Stack
+
+- Next.js 16 App Router
+- React 19
+- TypeScript
+- Tailwind CSS v4
+- shadcn/ui
+- Bun
+- next-themes
+- Motion
+- Leaflet and React Leaflet
+- Sonner
+- Lucide React
+- Vercel
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+bun install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Run the development server:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+bun run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Learn More
+## Verification
 
-To learn more about Next.js, take a look at the following resources:
+Run lint:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+bun run lint
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Run a production build:
 
-## Deploy on Vercel
+```bash
+bun run build
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Project Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```text
+app/
+  layout.tsx
+  page.tsx
+components/
+  about-section.tsx
+  contact-section.tsx
+  education-section.tsx
+  hero-section.tsx
+  projects-section.tsx
+  skills-section.tsx
+  ui/
+lib/
+  portfolio-data.ts
+  utils.ts
+public/
+  profile.jpg
+  devlogos/
+```
+
+## Notes
+
+The contact form is intentionally frontend-only for the challenge. It validates fields, shows a toast, and resets after submit. Project cards are placeholders and can be replaced with real projects later.
