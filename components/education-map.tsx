@@ -77,7 +77,7 @@ export function EducationMap() {
       center={center}
       zoom={16}
       scrollWheelZoom={false}
-      className="h-full min-h-80 w-full"
+      className="z-0 h-full min-h-80 w-full"
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

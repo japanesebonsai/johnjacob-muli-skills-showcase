@@ -140,3 +140,9 @@
     background: color-mix(in oklch, var(--portfolio-warm) 36%, transparent);
   }
 }
+
+.leaflet-pane,
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 0 !important;
+}

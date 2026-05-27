@@ -54,7 +54,7 @@ export function EducationSection() {
               Cebu Institute of Technology - University website.
             </p>
           </div>
-          <div className="overflow-hidden rounded-xl border">
+          <div className="relative z-0 overflow-hidden rounded-xl border">
             <EducationMap />
           </div>
         </CardContent>
