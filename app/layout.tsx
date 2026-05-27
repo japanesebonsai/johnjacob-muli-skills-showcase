@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import { ThemeProvider } from "@/components/theme-provider";
+import { IntroLoader } from "@/components/intro-loader";
 import { Toaster } from "@/components/ui/sonner";
 
 import "leaflet/dist/leaflet.css";
@@ -41,6 +42,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <IntroLoader />
           {children}
           <Toaster richColors closeButton />
         </ThemeProvider>

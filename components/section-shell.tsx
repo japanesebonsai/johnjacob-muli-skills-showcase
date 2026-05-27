@@ -10,6 +10,7 @@ type SectionShellProps = {
   id: string
   children: ReactNode
   className?: string
+  layout?: "split" | "stacked"
 }
 
 export function SectionShell({
@@ -19,14 +20,20 @@ export function SectionShell({
   id,
   children,
   className,
+  layout = "split",
 }: SectionShellProps) {
   return (
     <section
       id={id}
       className={cn("scroll-mt-24 py-16 sm:py-20", className)}
     >
-      <AnimatedSection className="mx-auto grid w-full max-w-6xl gap-8 px-4 sm:px-6 lg:grid-cols-[0.75fr_1.25fr]">
-        <div className="max-w-sm">
+      <AnimatedSection
+        className={cn(
+          "mx-auto grid w-full max-w-6xl gap-8 px-4 sm:px-6",
+          layout === "split" && "lg:grid-cols-[0.75fr_1.25fr]",
+        )}
+      >
+        <div className={cn(layout === "split" ? "max-w-sm" : "max-w-2xl")}>
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
             {eyebrow}
           </p>

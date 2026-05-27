@@ -11,7 +11,28 @@ type MapBundle = {
   Marker: typeof import("react-leaflet").Marker
   Popup: typeof import("react-leaflet").Popup
   TileLayer: typeof import("react-leaflet").TileLayer
+  useMap: typeof import("react-leaflet").useMap
   campusPin: DivIcon
+}
+
+function ResizeMap({
+  useMap,
+}: {
+  useMap: typeof import("react-leaflet").useMap
+}) {
+  const map = useMap()
+
+  useEffect(() => {
+    const timers = [0, 350, 850, 1700].map((delay) =>
+      window.setTimeout(() => map.invalidateSize(), delay),
+    )
+
+    return () => {
+      timers.forEach((timer) => window.clearTimeout(timer))
+    }
+  }, [map])
+
+  return null
 }
 
 export function EducationMap() {
@@ -35,6 +56,7 @@ export function EducationMap() {
         Marker: reactLeaflet.Marker,
         Popup: reactLeaflet.Popup,
         TileLayer: reactLeaflet.TileLayer,
+        useMap: reactLeaflet.useMap,
         campusPin: divIcon({
           className: "",
           html: '<div class="grid size-8 place-items-center rounded-full border-2 border-background bg-foreground text-background shadow-lg"><div class="size-2 rounded-full bg-background"></div></div>',
@@ -70,7 +92,8 @@ export function EducationMap() {
     )
   }
 
-  const { MapContainer, Marker, Popup, TileLayer, campusPin } = mapBundle
+  const { MapContainer, Marker, Popup, TileLayer, useMap, campusPin } =
+    mapBundle
 
   return (
     <MapContainer
@@ -79,6 +102,7 @@ export function EducationMap() {
       scrollWheelZoom={false}
       className="z-0 h-full min-h-80 w-full"
     >
+      <ResizeMap useMap={useMap} />
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

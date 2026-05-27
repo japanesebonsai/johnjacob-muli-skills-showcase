@@ -1,25 +1,29 @@
 import Link from "next/link"
-import Image from "next/image"
-import { ArrowDown, Mail } from "lucide-react"
+import { ArrowDown, Mail, Sparkles } from "lucide-react"
 
 import { AnimatedSection } from "@/components/animated-section"
+import { FloatingCar } from "@/components/floating-car"
+import { HeroBubbleBackground } from "@/components/hero-bubble-background"
+import { HeroAvatarCard } from "@/components/hero-avatar-card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { education, profile, socialLinks } from "@/lib/portfolio-data"
+import { profile, socialLinks } from "@/lib/portfolio-data"
+
+const heroChips = ["Next.js", "Interactive UI", "Maps", "Mini-games soon"]
 
 export function HeroSection() {
   return (
-    <section id="home" className="scroll-mt-24 border-b">
-      <div className="mx-auto grid min-h-[calc(100vh-4rem)] w-full max-w-6xl items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1.3fr_0.7fr] lg:py-20">
+    <section id="home" className="relative isolate scroll-mt-24 overflow-hidden border-b">
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_15%_20%,color-mix(in_oklch,var(--play-blue)_16%,transparent),transparent_28%),radial-gradient(circle_at_82%_18%,color-mix(in_oklch,var(--play-yellow)_20%,transparent),transparent_24%),radial-gradient(circle_at_70%_82%,color-mix(in_oklch,var(--play-green)_14%,transparent),transparent_28%)]" />
+      <HeroBubbleBackground />
+      <FloatingCar />
+      <div className="relative z-10 mx-auto grid min-h-[calc(100vh-4rem)] w-full max-w-6xl items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1.3fr_0.7fr] lg:py-20">
         <AnimatedSection className="max-w-3xl">
-          <Badge variant="outline" className="rounded-lg px-3 py-1">
+          <Badge
+            variant="outline"
+            className="rounded-lg border-[var(--play-blue)]/35 bg-[var(--play-blue)]/10 px-3 py-1 text-foreground"
+          >
+            <Sparkles aria-hidden="true" />
             Skills Showcase
           </Badge>
           <h1 className="mt-6 text-5xl font-semibold tracking-tight text-balance sm:text-6xl lg:text-7xl">
@@ -29,9 +33,29 @@ export function HeroSection() {
             {profile.title}
           </p>
           <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
-            {profile.tagline} I am shaping a portfolio that connects practical
-            software skills with a clean, personal web presence.
+            Creative coder building cool interactive things. {profile.tagline} I
+            am shaping a portfolio that connects practical software skills with
+            a playful personal web presence.
           </p>
+
+          <div className="mt-6 flex flex-wrap gap-2">
+            {heroChips.map((chip, index) => (
+              <span
+                key={chip}
+                className="rounded-lg border bg-card px-3 py-1 text-sm font-medium shadow-sm"
+                style={{
+                  borderColor: [
+                    "var(--play-blue)",
+                    "var(--play-red)",
+                    "var(--play-yellow)",
+                    "var(--play-green)",
+                  ][index],
+                }}
+              >
+                {chip}
+              </span>
+            ))}
+          </div>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Button
@@ -69,34 +93,7 @@ export function HeroSection() {
         </AnimatedSection>
 
         <AnimatedSection delay={0.12}>
-          <Card className="mx-auto w-full max-w-64 border-foreground/10 bg-card/90 p-2 shadow-sm sm:max-w-72">
-          <div className="relative aspect-[4/5] overflow-hidden rounded-xl border bg-muted">
-            <Image
-              src={profile.profileImage}
-              alt="Portrait of John Jacob Muli"
-              fill
-              priority
-              sizes="(min-width: 1024px) 420px, 90vw"
-              className="object-cover object-[50%_38%]"
-            />
-          </div>
-          <CardHeader>
-            <CardTitle>{education.program}</CardTitle>
-            <CardDescription>
-              {education.year} at {education.school}
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-            {["Next.js", "shadcn/ui", "Dark mode", "Vercel"].map((item) => (
-              <div
-                key={item}
-                className="rounded-lg border bg-background px-3 py-2 text-sm font-medium"
-              >
-                {item}
-              </div>
-            ))}
-          </CardContent>
-          </Card>
+          <HeroAvatarCard />
         </AnimatedSection>
       </div>
     </section>
