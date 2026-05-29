@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import Lottie from "lottie-react"
+import { motion } from "motion/react"
 
 export function FloatingCar() {
   const [animationData, setAnimationData] = useState<unknown>(null)
@@ -33,10 +34,23 @@ export function FloatingCar() {
 
   return (
     <div
-      className="pointer-events-none absolute -bottom-20 left-1/2 z-0 hidden size-72 -translate-x-1/2 opacity-70 sm:block md:-bottom-28 md:size-96 lg:-bottom-32 lg:size-[28rem]"
+      className="pointer-events-none absolute inset-x-0 -bottom-32 z-0 hidden h-[28rem] overflow-hidden opacity-70 lg:block"
       aria-hidden="true"
     >
-      <Lottie animationData={animationData} loop autoplay />
+      <motion.div
+        data-slot="floating-car"
+        className="absolute bottom-0 left-0 size-[28rem]"
+        initial={{ x: "-35vw" }}
+        animate={{ x: "105vw" }}
+        transition={{
+          duration: 42,
+          ease: "linear",
+          repeat: Infinity,
+          repeatType: "loop",
+        }}
+      >
+        <Lottie animationData={animationData} loop autoplay />
+      </motion.div>
     </div>
   )
 }

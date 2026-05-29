@@ -3,13 +3,13 @@
 import { useEffect, useState } from "react"
 import Lottie from "lottie-react"
 
-export function FloatingSword() {
+export function EducationBoy() {
   const [animationData, setAnimationData] = useState<unknown>(null)
 
   useEffect(() => {
     let isMounted = true
 
-    fetch("/sword.json")
+    fetch("/boy.json")
       .then((response) => response.json())
       .then((data) => {
         if (isMounted) {
@@ -33,7 +33,8 @@ export function FloatingSword() {
 
   return (
     <div
-      className="pointer-events-none absolute -bottom-5 left-1/2 z-0 hidden size-72 -translate-x-1/2 opacity-70 sm:block md:-bottom-28 md:size-96 lg:-bottom-32 lg:size-[28rem]"
+      className="pointer-events-none h-52 w-52 sm:h-64 sm:w-64 lg:h-72 lg:w-72"
+      aria-hidden="true"
     >
       <Lottie animationData={animationData} loop autoplay />
     </div>

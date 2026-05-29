@@ -137,16 +137,48 @@
   }
   body {
     @apply bg-background text-foreground;
+    overflow-x: clip;
+  }
+  body:has([data-loader="intro"]) {
+    overflow: hidden;
   }
   button:not(:disabled), [role="button"]:not(:disabled) {
     cursor: pointer;
   }
   html {
     @apply scroll-smooth font-sans;
+    overflow-x: clip;
   }
   ::selection {
     background: color-mix(in oklch, var(--portfolio-warm) 36%, transparent);
   }
+}
+
+.theme-transition,
+.theme-transition body {
+  transition:
+    background-color 280ms ease,
+    color 280ms ease !important;
+}
+
+html::before {
+  content: "";
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--background);
+  opacity: 0;
+  transform: scale(0);
+  transform-origin: calc(100% - 7.5rem) 2rem;
+  transition:
+    opacity 650ms ease,
+    transform 650ms ease;
+}
+
+html.theme-ripple::before {
+  opacity: 0.18;
+  transform: scale(1);
 }
 
 .leaflet-pane,
@@ -173,20 +205,6 @@
   animation-delay: var(--sprite-delay, 0s);
 }
 
-@keyframes hero-avatar-float {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-  50% {
-    transform: translate3d(0, -38px, 0);
-  }
-}
-
-.hero-avatar-float {
-  animation: hero-avatar-float 4.8s ease-in-out infinite;
-}
-
 @keyframes hero-avatar-wobble {
   0%,
   100% {
@@ -203,10 +221,56 @@
   animation: hero-avatar-wobble 3.8s ease-in-out infinite;
 }
 
+@keyframes intro-run-across {
+  0% {
+    transform: translate3d(-5rem, -24rem, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(calc(100vw + 2rem), calc(100vh + 2rem), 0)
+      scale(1);
+  }
+}
+
+.intro-running-boy {
+  animation: intro-run-across 3s linear forwards;
+}
+
+.project-bus-run {
+  animation: project-bus-across 12s linear infinite;
+}
+
+@keyframes project-bus-across {
+  0% {
+    transform: translate3d(-58%, 0, 0);
+  }
+  100% {
+    transform: translate3d(58%, 0, 0);
+  }
+}
+
+.intro-welcome-trail {
+  text-shadow:
+    0 10px 28px color-mix(in oklch, var(--play-yellow) 28%, transparent),
+    0 2px 0 color-mix(in oklch, var(--background) 80%, transparent);
+}
+
 @media (prefers-reduced-motion: reduce) {
+    .theme-transition,
+    .theme-transition body {
+      transition: none !important;
+    }
+
+  html::before {
+    display: none;
+  }
+
   .zero-gravity-sprite,
-  .hero-avatar-float,
-  .hero-avatar-wobble {
+  .hero-avatar-wobble,
+  .project-bus-run {
     animation: none;
   }
+}
+
+.intro-running-boy {
+  animation: intro-run-across 3s linear forwards !important;
 }

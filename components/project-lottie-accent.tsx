@@ -3,13 +3,25 @@
 import { useEffect, useState } from "react"
 import Lottie from "lottie-react"
 
-export function MapLantern() {
+import { cn } from "@/lib/utils"
+
+type ProjectLottieAccentProps = {
+  src: string
+  className?: string
+  innerClassName?: string
+}
+
+export function ProjectLottieAccent({
+  src,
+  className,
+  innerClassName,
+}: ProjectLottieAccentProps) {
   const [animationData, setAnimationData] = useState<unknown>(null)
 
   useEffect(() => {
     let isMounted = true
 
-    fetch("/lantern.json")
+    fetch(src)
       .then((response) => response.json())
       .then((data) => {
         if (isMounted) {
@@ -25,18 +37,20 @@ export function MapLantern() {
     return () => {
       isMounted = false
     }
-  }, [])
+  }, [src])
 
   if (!animationData) {
     return null
   }
 
   return (
-    <div
-      className="pointer-events-none mx-auto grid size-40 place-items-center sm:size-48 lg:size-56"
-      aria-hidden="true"
-    >
-      <Lottie animationData={animationData} loop autoplay />
+    <div className={cn("pointer-events-none absolute", className)} aria-hidden>
+      <Lottie
+        animationData={animationData}
+        loop
+        autoplay
+        className={innerClassName}
+      />
     </div>
   )
 }

@@ -1,64 +1,66 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Lottie from "lottie-react"
+import type { LottieRefCurrentProps } from "lottie-react"
+import { usePathname } from "next/navigation"
+
+import runningBoyAnimation from "@/public/running-boy.json"
 
 export function IntroLoader() {
+  const pathname = usePathname()
   const [visible, setVisible] = useState(true)
-  const [animationData, setAnimationData] = useState<unknown>(null)
+  const runningBoyRef = useRef<LottieRefCurrentProps>(null)
+  const shouldShowLoader = pathname === "/"
 
   useEffect(() => {
-    const timer = window.setTimeout(() => setVisible(false), 900)
-    return () => window.clearTimeout(timer)
-  }, [])
+    const previousOverflow = document.body.style.overflow
 
-  useEffect(() => {
-    let isMounted = true
-
-    fetch("/loader-cat.json")
-      .then((response) => response.json())
-      .then((data) => {
-        if (isMounted) {
-          setAnimationData(data)
-        }
-      })
-      .catch(() => {
-        if (isMounted) {
-          setAnimationData(null)
-        }
-      })
+    if (visible && shouldShowLoader) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = previousOverflow
+    }
 
     return () => {
-      isMounted = false
+      document.body.style.overflow = previousOverflow
     }
+  }, [shouldShowLoader, visible])
+
+  useEffect(() => {
+    runningBoyRef.current?.setSpeed(0.7)
+
+    const hideTimer = window.setTimeout(() => setVisible(false), 3000)
+
+    return () => window.clearTimeout(hideTimer)
   }, [])
 
-  if (!visible) {
+  if (!shouldShowLoader || !visible) {
     return null
   }
 
   return (
     <div
-      className="fixed inset-0 z-[100] grid place-items-center bg-background/95 backdrop-blur-sm"
+      data-loader="intro"
+      className="fixed inset-0 z-[100] overflow-hidden bg-background/95 backdrop-blur-sm"
       role="status"
       aria-label="Loading portfolio"
     >
-      <div className="flex flex-col items-center gap-4">
-        <div className="grid size-32 place-items-center">
-          {animationData ? (
+      <div className="pointer-events-none absolute inset-0">
+        <div
+          className="intro-running-boy absolute left-0 top-0 flex items-center gap-5"
+          onAnimationEnd={() => setVisible(false)}
+        >
+          <div className="h-64 w-64 sm:h-80 sm:w-80 lg:h-96 lg:w-96">
             <Lottie
-              animationData={animationData}
+              lottieRef={runningBoyRef}
+              animationData={runningBoyAnimation}
               loop
               autoplay
-              className="size-32"
+              className="h-full w-full"
             />
-          ) : (
-            <div className="size-10 animate-pulse rounded-full bg-foreground" />
-          )}
+          </div>
         </div>
-        <p className="text-sm font-medium text-muted-foreground">
-          Loading playful things...
-        </p>
       </div>
     </div>
   )
