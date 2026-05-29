@@ -131,7 +131,6 @@ export function ProjectsSection() {
                       project.title === "Project EVA" &&
                       "scale-105 object-cover p-0",
                     )}
-                    priority={index === 0}
                   />
                   {lottieAccent ? (
                     <ProjectLottieAccent

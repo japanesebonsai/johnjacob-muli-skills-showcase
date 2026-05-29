@@ -1,8 +1,9 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useRef } from "react"
 import Lottie from "lottie-react"
 
+import { useLazyLottieData } from "@/components/use-lazy-lottie-data"
 import { cn } from "@/lib/utils"
 
 type ProjectLottieAccentProps = {
@@ -16,35 +17,19 @@ export function ProjectLottieAccent({
   className,
   innerClassName,
 }: ProjectLottieAccentProps) {
-  const [animationData, setAnimationData] = useState<unknown>(null)
-
-  useEffect(() => {
-    let isMounted = true
-
-    fetch(src)
-      .then((response) => response.json())
-      .then((data) => {
-        if (isMounted) {
-          setAnimationData(data)
-        }
-      })
-      .catch(() => {
-        if (isMounted) {
-          setAnimationData(null)
-        }
-      })
-
-    return () => {
-      isMounted = false
-    }
-  }, [src])
+  const containerRef = useRef<HTMLDivElement>(null)
+  const animationData = useLazyLottieData(src, { targetRef: containerRef })
 
   if (!animationData) {
-    return null
+    return <div ref={containerRef} className={cn("absolute", className)} />
   }
 
   return (
-    <div className={cn("pointer-events-none absolute", className)} aria-hidden>
+    <div
+      ref={containerRef}
+      className={cn("pointer-events-none absolute", className)}
+      aria-hidden
+    >
       <Lottie
         animationData={animationData}
         loop

@@ -1,39 +1,39 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Lottie from "lottie-react"
 import { motion } from "motion/react"
 
+import { useLazyLottieData } from "@/components/use-lazy-lottie-data"
+
 export function FloatingCar() {
-  const [animationData, setAnimationData] = useState<unknown>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [isDesktop, setIsDesktop] = useState(false)
 
   useEffect(() => {
-    let isMounted = true
+    const mediaQuery = window.matchMedia("(min-width: 1024px)")
+    const syncDesktop = () => setIsDesktop(mediaQuery.matches)
 
-    fetch("/car.json")
-      .then((response) => response.json())
-      .then((data) => {
-        if (isMounted) {
-          setAnimationData(data)
-        }
-      })
-      .catch(() => {
-        if (isMounted) {
-          setAnimationData(null)
-        }
-      })
+    syncDesktop()
+    mediaQuery.addEventListener("change", syncDesktop)
 
     return () => {
-      isMounted = false
+      mediaQuery.removeEventListener("change", syncDesktop)
     }
   }, [])
 
+  const animationData = useLazyLottieData("/car.json", {
+    enabled: isDesktop,
+    targetRef: containerRef,
+  })
+
   if (!animationData) {
-    return null
+    return <div ref={containerRef} className="hidden lg:block" />
   }
 
   return (
     <div
+      ref={containerRef}
       className="pointer-events-none absolute inset-x-0 -bottom-32 z-0 hidden h-[28rem] overflow-hidden opacity-70 lg:block"
       aria-hidden="true"
     >

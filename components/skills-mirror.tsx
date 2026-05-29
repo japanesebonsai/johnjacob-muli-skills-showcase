@@ -1,10 +1,11 @@
 "use client"
 
 import Image from "next/image"
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import Lottie from "lottie-react"
 import { motion } from "motion/react"
 
+import { useLazyLottieData } from "@/components/use-lazy-lottie-data"
 import { cn } from "@/lib/utils"
 import { skillGroups } from "@/lib/portfolio-data"
 
@@ -100,13 +101,16 @@ const desktopSkillPositions = [
 const desktopSkillPositionOverrides: Partial<Record<SkillName, { x: number; y: number }>> = {
   Vercel: { x: 52, y: 86 },
   Figma: { x: 18, y: 84 },
-  "shadcn/ui": { x: 4, y: -9 },
+  "shadcn/ui": { x: 34, y: 31 },
   Django: { x: 64, y: 49 },
   "Android SDK": { x: 38, y: 87 },
 }
 
 export function SkillsMirror() {
-  const [animationData, setAnimationData] = useState<unknown>(null)
+  const mirrorRef = useRef<HTMLDivElement>(null)
+  const animationData = useLazyLottieData("/mirror.json", {
+    targetRef: mirrorRef,
+  })
   const [isDesktop, setIsDesktop] = useState(false)
   const skills = useMemo(
     () =>
@@ -119,27 +123,6 @@ export function SkillsMirror() {
       ),
     [],
   )
-
-  useEffect(() => {
-    let isMounted = true
-
-    fetch("/mirror.json")
-      .then((response) => response.json())
-      .then((data) => {
-        if (isMounted) {
-          setAnimationData(data)
-        }
-      })
-      .catch(() => {
-        if (isMounted) {
-          setAnimationData(null)
-        }
-      })
-
-    return () => {
-      isMounted = false
-    }
-  }, [])
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(min-width: 1024px)")
@@ -169,7 +152,10 @@ export function SkillsMirror() {
         </p>
       </div>
       <div className="relative mt-8 overflow-hidden lg:mt-0 lg:min-h-[34rem] lg:overflow-visible">
-        <div className="relative z-20 grid h-44 place-items-center overflow-hidden rounded-2xl border border-foreground/10 bg-background/50 lg:absolute lg:-left-24 lg:top-[50%] lg:h-auto lg:-translate-y-1/2 lg:overflow-visible lg:border-0 lg:bg-transparent xl:-left-36">
+        <div
+          ref={mirrorRef}
+          className="relative z-20 grid h-44 place-items-center overflow-hidden rounded-2xl border border-foreground/10 bg-background/50 lg:absolute lg:-left-24 lg:top-[50%] lg:h-auto lg:-translate-y-1/2 lg:overflow-visible lg:border-0 lg:bg-transparent xl:-left-36"
+        >
           <div className="pointer-events-none absolute right-0 top-1/2 hidden h-40 w-56 -translate-y-1/2 rounded-full bg-orange-400/20 blur-3xl lg:block" />
           <div className="grid size-64 place-items-center opacity-70 sm:size-80 lg:size-[28.5rem] lg:opacity-100 xl:size-[33rem]">
             {animationData ? (
@@ -181,7 +167,7 @@ export function SkillsMirror() {
         </div>
 
         <div className="absolute left-[20%] top-[50%] hidden h-px w-32 -translate-y-1/2 bg-gradient-to-r from-orange-400/70 to-transparent lg:block" />
-        <div className="relative mt-6 grid grid-cols-3 place-items-center gap-x-1.5 gap-y-2 overflow-visible pb-12 sm:gap-x-3 sm:gap-y-3 lg:ml-[16rem] lg:mt-0 lg:h-[34rem] lg:max-w-[60rem] lg:grid-cols-none lg:pb-0 xl:ml-[18rem] xl:max-w-[66rem]">
+        <div className="relative mt-6 grid grid-cols-3 place-items-center gap-x-1.5 gap-y-2 overflow-visible pb-12 sm:gap-x-3 sm:gap-y-3 lg:ml-[19rem] lg:mt-0 lg:h-[34rem] lg:max-w-[64rem] lg:grid-cols-none lg:pb-0 xl:ml-[21rem] xl:max-w-[68rem]">
           {skills.map(({ skill, groupIndex, index }, order) => (
             <FlyingSkill
               key={skill}

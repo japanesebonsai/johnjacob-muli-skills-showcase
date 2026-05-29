@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { FormEvent, type ReactNode, useState } from "react"
+import { type ReactNode, useActionState, useEffect, useRef } from "react"
 import {
   AtSign,
   BottleWine,
@@ -11,6 +11,7 @@ import {
 } from "lucide-react"
 import { toast } from "sonner"
 
+import { sendContactMessage } from "@/app/actions/contact"
 import { SectionShell } from "@/components/section-shell"
 import { Button } from "@/components/ui/button"
 import {
@@ -22,13 +23,8 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { initialContactFormState } from "@/lib/contact-form-state"
 import { profile, socialLinks } from "@/lib/portfolio-data"
-
-const initialForm = {
-  name: "",
-  email: "",
-  message: "",
-}
 
 const socialIconMap: Record<string, ReactNode> = {
   GitHub: (
@@ -65,19 +61,25 @@ const socialHelperText: Record<string, string> = {
 }
 
 export function ContactSection() {
-  const [form, setForm] = useState(initialForm)
+  const formRef = useRef<HTMLFormElement>(null)
+  const [state, formAction, isPending] = useActionState(
+    sendContactMessage,
+    initialContactFormState,
+  )
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-
-    if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
-      toast.error("Please complete all fields before sending.")
+  useEffect(() => {
+    if (!state.message) {
       return
     }
 
-    toast.success("Thanks! Your message has been received.")
-    setForm(initialForm)
-  }
+    if (state.ok) {
+      toast.success(state.message)
+      formRef.current?.reset()
+      return
+    }
+
+    toast.error(state.message)
+  }, [state])
 
   return (
     <SectionShell
@@ -103,21 +105,28 @@ export function ContactSection() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form className="space-y-4" onSubmit={handleSubmit}>
+            <form ref={formRef} action={formAction} className="space-y-4">
+              <label className="sr-only" htmlFor="contact-website">
+                Website
+              </label>
+              <Input
+                id="contact-website"
+                name="website"
+                tabIndex={-1}
+                autoComplete="off"
+                className="hidden"
+              />
               <div className="grid gap-4 sm:grid-cols-2">
                 <label className="block space-y-2">
                   <span className="text-sm font-medium">Name</span>
                   <Input
                     id="contact-name"
-                    value={form.name}
-                    onChange={(event) =>
-                      setForm((current) => ({
-                        ...current,
-                        name: event.target.value,
-                      }))
-                    }
+                    name="name"
+                    defaultValue=""
                     placeholder="Your name"
                     autoComplete="name"
+                    disabled={isPending}
+                    required
                     className="bg-background/70"
                   />
                 </label>
@@ -125,16 +134,13 @@ export function ContactSection() {
                   <span className="text-sm font-medium">Email</span>
                   <Input
                     id="contact-email"
+                    name="email"
                     type="email"
-                    value={form.email}
-                    onChange={(event) =>
-                      setForm((current) => ({
-                        ...current,
-                        email: event.target.value,
-                      }))
-                    }
+                    defaultValue=""
                     placeholder="you@example.com"
                     autoComplete="email"
+                    disabled={isPending}
+                    required
                     className="bg-background/70"
                   />
                 </label>
@@ -142,14 +148,11 @@ export function ContactSection() {
               <label className="block space-y-2">
                 <span className="text-sm font-medium">Message</span>
                 <Textarea
-                  value={form.message}
-                  onChange={(event) =>
-                    setForm((current) => ({
-                      ...current,
-                      message: event.target.value,
-                    }))
-                  }
+                  name="message"
+                  defaultValue=""
                   placeholder="Write a short message..."
+                  disabled={isPending}
+                  required
                   className="min-h-32 resize-none bg-background/70"
                 />
               </label>
@@ -164,9 +167,10 @@ export function ContactSection() {
                 <Button
                   type="submit"
                   size="lg"
+                  disabled={isPending}
                   className="w-full bg-foreground text-background hover:bg-foreground/85 sm:w-fit"
                 >
-                  Send Message
+                  {isPending ? "Sending..." : "Send Message"}
                   <Send aria-hidden="true" />
                 </Button>
               </div>

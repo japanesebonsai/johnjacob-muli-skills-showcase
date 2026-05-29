@@ -5,7 +5,40 @@ import Lottie from "lottie-react"
 import type { LottieRefCurrentProps } from "lottie-react"
 import { usePathname } from "next/navigation"
 
+import { criticalHeroAssets, lowerSectionLotties } from "@/lib/asset-preloads"
 import runningBoyAnimation from "@/public/running-boy.json"
+
+const MIN_LOADER_MS = 1800
+const MAX_LOADER_MS = 3000
+
+function preloadImage(src: string) {
+  return new Promise<void>((resolve) => {
+    const image = new window.Image()
+
+    image.onload = () => {
+      const decode = image.decode?.()
+
+      if (decode) {
+        decode.catch(() => undefined).finally(resolve)
+        return
+      }
+
+      resolve()
+    }
+    image.onerror = () => resolve()
+    image.src = src
+  })
+}
+
+function warmJson(src: string) {
+  return fetch(src, { cache: "force-cache" })
+    .then(() => undefined)
+    .catch(() => undefined)
+}
+
+function wait(ms: number) {
+  return new Promise<void>((resolve) => window.setTimeout(resolve, ms))
+}
 
 export function IntroLoader() {
   const pathname = usePathname()
@@ -30,10 +63,44 @@ export function IntroLoader() {
   useEffect(() => {
     runningBoyRef.current?.setSpeed(0.7)
 
-    const hideTimer = window.setTimeout(() => setVisible(false), 3000)
+    if (!shouldShowLoader) {
+      return
+    }
 
-    return () => window.clearTimeout(hideTimer)
-  }, [])
+    const shouldPreloadDesktop = window.matchMedia("(min-width: 1024px)").matches
+    const criticalJson = [
+      ...criticalHeroAssets.lotties,
+      ...(shouldPreloadDesktop ? criticalHeroAssets.desktopLotties : []),
+    ]
+    let isMounted = true
+
+    lowerSectionLotties.forEach((src) => {
+      if ("requestIdleCallback" in window) {
+        window.requestIdleCallback(() => warmJson(src))
+        return
+      }
+
+      globalThis.setTimeout(() => warmJson(src), MIN_LOADER_MS)
+    })
+
+    const ready = Promise.all([
+      ...criticalHeroAssets.images.map(preloadImage),
+      ...criticalJson.map(warmJson),
+    ]).then(() => undefined)
+
+    Promise.race([
+      Promise.all([ready, wait(MIN_LOADER_MS)]),
+      wait(MAX_LOADER_MS),
+    ]).then(() => {
+      if (isMounted) {
+        setVisible(false)
+      }
+    })
+
+    return () => {
+      isMounted = false
+    }
+  }, [shouldShowLoader])
 
   if (!shouldShowLoader || !visible) {
     return null

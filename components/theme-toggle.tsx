@@ -1,18 +1,15 @@
 "use client"
 
 import { Moon, Sun } from "lucide-react"
-import { useTheme } from "next-themes"
 
+import { useTheme } from "@/components/theme-provider"
 import { Button } from "@/components/ui/button"
 
 export function ThemeToggle() {
-  const { setTheme } = useTheme()
+  const { resolvedTheme, setTheme } = useTheme()
 
   const handleToggle = () => {
-    const currentlyDark = document.documentElement.classList.contains("dark")
-    const nextTheme = currentlyDark ? "light" : "dark"
-
-    document.documentElement.classList.toggle("dark", nextTheme === "dark")
+    const nextTheme = resolvedTheme === "dark" ? "light" : "dark"
     setTheme(nextTheme)
   }
 

@@ -1,8 +1,9 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useRef } from "react"
 import Lottie from "lottie-react"
 
+import { useLazyLottieData } from "@/components/use-lazy-lottie-data"
 import { cn } from "@/lib/utils"
 
 type ShoreFooterProps = {
@@ -11,35 +12,19 @@ type ShoreFooterProps = {
 }
 
 export function ShoreFooter({ className, full = false }: ShoreFooterProps) {
-  const [animationData, setAnimationData] = useState<unknown>(null)
-
-  useEffect(() => {
-    let isMounted = true
-
-    fetch("/shore.json")
-      .then((response) => response.json())
-      .then((data) => {
-        if (isMounted) {
-          setAnimationData(data)
-        }
-      })
-      .catch(() => {
-        if (isMounted) {
-          setAnimationData(null)
-        }
-      })
-
-    return () => {
-      isMounted = false
-    }
-  }, [])
+  const containerRef = useRef<HTMLDivElement>(null)
+  const animationData = useLazyLottieData("/shore.json", {
+    rootMargin: "900px 0px",
+    targetRef: containerRef,
+  })
 
   if (!animationData) {
-    return null
+    return <div ref={containerRef} className={cn(full ? "h-full w-full" : "h-24 w-full", className)} />
   }
 
   return (
     <div
+      ref={containerRef}
       className={cn(
         full
           ? "h-full w-full overflow-hidden [&_svg]:!h-full [&_svg]:!w-full"

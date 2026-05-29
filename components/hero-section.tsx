@@ -33,14 +33,16 @@ export function HeroSection() {
               </span>
             </span>
           </h1>
-          <p className="mt-7 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
-            <span className="float-right ml-4 mt-1 block lg:hidden">
+          <div className="mt-7 flex max-w-3xl items-start gap-4 sm:gap-6 lg:block">
+            <div className="order-2 shrink-0 lg:hidden">
               <HeroAvatarCard compact />
-            </span>
-            I&apos;m a student developer based in Cebu, currently exploring the
-            vast world of shaping systems that bring wonderful ideas together and
-            make a difference in the community.
-          </p>
+            </div>
+            <p className="max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
+              I&apos;m a student developer based in Cebu, currently exploring the
+              vast world of shaping systems that bring wonderful ideas together
+              and make a difference in the community.
+            </p>
+          </div>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Button
