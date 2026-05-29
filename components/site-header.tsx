@@ -1,9 +1,10 @@
 import Link from "next/link"
-import { ArrowUpRight } from "lucide-react"
+import Image from "next/image"
+import { ArrowUpRight, FileDown } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/theme-toggle"
-import { socialLinks } from "@/lib/portfolio-data"
+import { profile, socialLinks } from "@/lib/portfolio-data"
 
 const navItems = [
   { label: "Home", href: "#home" },
@@ -24,8 +25,23 @@ export function SiteHeader() {
           className="flex items-center gap-2 text-sm font-semibold tracking-tight"
           aria-label="Go to home section"
         >
-          <span className="grid size-8 place-items-center rounded-lg border bg-card text-xs shadow-sm">
-            JM
+          <span className="relative grid size-8 overflow-hidden rounded-lg border bg-card shadow-sm">
+            <Image
+              src="/brand-logo-light.png"
+              alt=""
+              fill
+              sizes="32px"
+              className="object-cover dark:hidden"
+              priority
+            />
+            <Image
+              src="/brand-logo-dark.png"
+              alt=""
+              fill
+              sizes="32px"
+              className="hidden object-cover dark:block"
+              priority
+            />
           </span>
           <span className="hidden sm:inline">John Jacob Muli</span>
         </Link>
@@ -49,6 +65,22 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-2">
           <ThemeToggle />
+          <Button
+            variant="outline"
+            size="sm"
+            nativeButton={false}
+            render={
+              <Link
+                href={profile.resume}
+                target="_blank"
+                rel="noreferrer"
+              />
+            }
+            className="hidden sm:inline-flex"
+          >
+            <span>Resume</span>
+            <FileDown aria-hidden="true" />
+          </Button>
           {github ? (
             <Button
               variant="outline"

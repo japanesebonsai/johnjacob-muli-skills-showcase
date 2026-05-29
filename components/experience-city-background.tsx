@@ -14,7 +14,7 @@ export function ExperienceCityBackground({
   className,
 }: ExperienceCityBackgroundProps) {
   const containerRef = useRef<HTMLDivElement>(null)
-  const animationData = useLazyLottieData("/city.json", {
+  const animationData = useLazyLottieData("/experience-cityscape.json", {
     targetRef: containerRef,
   })
 

@@ -3,7 +3,8 @@ export const profile = {
   title: "Student Developer",
   tagline: "Building clean, responsive web and software experiences.",
   email: "jacobmuli0729@gmail.com",
-  profileImage: "/profile-work.jpeg",
+  profileImage: "/john-jacob-muli-profile.jpeg",
+  resume: "/john-jacob-muli-resume.pdf",
 }
 
 export const socialLinks = [
@@ -77,7 +78,7 @@ export const experiences = [
     shortName: "CREST",
     period: "Jun 2024 - Aug 2024",
     type: "Experience",
-    image: "/involvement/crest.jpg",
+    image: "/involvement/experience-crest-assessment-center.jpg",
     accent: "blue",
     summary:
       "Supported IT and operations work inside a seafarers training environment, balancing software testing with simulator readiness.",
@@ -94,7 +95,7 @@ export const experiences = [
     shortName: "GDG CIT-U",
     period: "2025 - Present",
     type: "Organization",
-    image: "/involvement/gdg-citu-new.jpg",
+    image: "/involvement/involvement-gdg-citu.jpg",
     accent: "google",
     summary:
       "Helped make technical events more approachable through workshop materials, attendee engagement, and on-site support.",
@@ -111,7 +112,7 @@ export const experiences = [
     shortName: "Angat Buhay",
     period: "Oct 2025",
     type: "Volunteer",
-    image: "/involvement/angat-buhay.jpg",
+    image: "/involvement/involvement-angat-buhay.jpg",
     accent: "pink",
     summary:
       "Co-developed an emergency MIS for disaster-response coordination after the 6.9M Cebu earthquake.",
@@ -134,7 +135,7 @@ export const projects = [
     role: "Frontend, AI workflow, and deployment contributor",
     impact:
       "2nd Runner Up at Innovation Cup Cebu 2026, selected from 50 competing teams.",
-    image: "/projects/kumpas.png",
+    image: "/projects/project-kumpas-preview.png",
     repo: "https://github.com/jermochi/kumpas",
     repoFullName: "jermochi/kumpas",
     accent: "green",
@@ -150,7 +151,7 @@ export const projects = [
       "Backend developer responsible for the off-chain database layer supporting aid records and system data.",
     impact:
       "Connected blockchain-backed transparency with practical off-chain data storage for disaster-response coordination.",
-    image: "/projects/resq.png",
+    image: "/projects/project-resq-preview.png",
     repo: "https://github.com/MRhagz/resQ",
     repoFullName: "MRhagz/resQ",
     accent: "blue",
@@ -166,7 +167,7 @@ export const projects = [
       "Built the Kotlin Android app with pedometer and gyroscope tracking plus Firebase-backed activity history.",
     impact:
       "Improved background battery efficiency by 80% with dynamic sensor polling that degrades gracefully during low-power states.",
-    image: "/projects/stepsync-logo.png",
+    image: "/projects/project-stepsync-logo.png",
     repo: "https://github.com/japanesebonsai/StepSync/",
     repoFullName: "japanesebonsai/StepSync",
     accent: "blue",
@@ -182,7 +183,7 @@ export const projects = [
       "Implemented the chatbot module and visualization-state extraction for contextual AI explanations.",
     impact:
       "Used single-pass iteration for linear structures and recursive traversal for trees to capture the current visualization state.",
-    image: "/projects/project-eva-group-2.png",
+    image: "/projects/project-eva-preview.png",
     repo: "https://github.com/karlphoenixcornilla/Capstone2025",
     repoFullName: "karlphoenixcornilla/Capstone2025",
     accent: "yellow",

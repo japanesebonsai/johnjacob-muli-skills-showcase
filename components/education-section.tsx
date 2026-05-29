@@ -25,7 +25,7 @@ export function EducationSection() {
       headingAdornment={
         <div className="grid size-28 place-items-center overflow-hidden rounded-xl border bg-white p-3 shadow-sm sm:size-32">
           <Image
-            src="/cit-logo.png"
+            src="/citu-logo.png"
             alt="Cebu Institute of Technology - University logo"
             width={104}
             height={104}

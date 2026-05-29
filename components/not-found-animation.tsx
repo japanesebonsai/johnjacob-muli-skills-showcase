@@ -2,7 +2,7 @@
 
 import Lottie from "lottie-react"
 
-import error404Animation from "@/public/error-404.json"
+import error404Animation from "@/public/not-found-illustration.json"
 
 export function NotFoundAnimation() {
   return (

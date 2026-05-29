@@ -9,7 +9,7 @@ export function EducationBoy() {
   useEffect(() => {
     let isMounted = true
 
-    fetch("/boy.json")
+    fetch("/education-student-illustration.json")
       .then((response) => response.json())
       .then((data) => {
         if (isMounted) {

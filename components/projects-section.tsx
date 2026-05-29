@@ -33,22 +33,22 @@ const projectAccentStyles = {
 
 const projectLottieAccents = {
   Kumpas: {
-    src: "/project-lotties/japan-bus.json",
+    src: "/project-lotties/project-kumpas-bus.json",
     className:
       "-inset-x-[6%] -bottom-10 z-20 h-52 w-[112%] opacity-45 mix-blend-multiply dark:opacity-50 dark:mix-blend-screen sm:h-60 lg:h-72",
   },
   ResQ: {
-    src: "/project-lotties/chain.json",
+    src: "/project-lotties/project-resq-chain.json",
     className:
       "inset-0 z-10 h-full w-full opacity-15 mix-blend-screen dark:opacity-20",
   },
   StepSync: {
-    src: "/project-lotties/wind.json",
+    src: "/project-lotties/project-stepsync-wind.json",
     className:
       "-inset-x-[18%] inset-y-0 z-10 h-full w-[136%] opacity-30 mix-blend-screen dark:opacity-35",
   },
   "Project EVA": {
-    src: "/project-lotties/stars.json",
+    src: "/project-lotties/project-eva-stars.json",
     className:
       "inset-0 z-20 h-full w-full opacity-50 mix-blend-screen dark:opacity-55",
   },

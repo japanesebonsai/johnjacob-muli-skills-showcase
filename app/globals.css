@@ -239,6 +239,20 @@ html.theme-ripple::before {
   animation: project-bus-across 12s linear infinite;
 }
 
+.contact-confetti {
+  animation: contact-confetti-fade 2.6s ease-out forwards;
+}
+
+@keyframes contact-confetti-fade {
+  0%,
+  72% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 @keyframes project-bus-across {
   0% {
     transform: translate3d(-58%, 0, 0);
@@ -266,7 +280,8 @@ html.theme-ripple::before {
 
   .zero-gravity-sprite,
   .hero-avatar-wobble,
-  .project-bus-run {
+  .project-bus-run,
+  .contact-confetti {
     animation: none;
   }
 }

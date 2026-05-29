@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
 
 import { ThemeProvider } from "@/components/theme-provider";
 import { IntroLoader } from "@/components/intro-loader";
@@ -36,11 +37,17 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
-        <script
+        <link
+          rel="icon"
+          type="image/png"
+          href="/brand-logo-dark.png"
+        />
+        <link rel="apple-touch-icon" href="/brand-logo-light.png" />
+        <Script
           id="theme-init"
-          suppressHydrationWarning
-          dangerouslySetInnerHTML={{
-            __html: `(() => {
+          strategy="beforeInteractive"
+        >
+          {`(() => {
   try {
     const storedTheme = localStorage.getItem("theme") || "system";
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -48,19 +55,18 @@ export default function RootLayout({
     document.documentElement.classList.toggle("dark", isDark);
     document.documentElement.style.colorScheme = isDark ? "dark" : "light";
   } catch {}
-})();`,
-          }}
-        />
-        <link rel="preload" href="/profile-work.jpeg" as="image" />
+})();`}
+        </Script>
+        <link rel="preload" href="/john-jacob-muli-profile.jpeg" as="image" />
         <link
           rel="preload"
-          href="/bubble.json"
+          href="/hero-bubble-background.json"
           as="fetch"
           crossOrigin="anonymous"
         />
         <link
           rel="preload"
-          href="/running-boy.json"
+          href="/intro-running-student.json"
           as="fetch"
           crossOrigin="anonymous"
         />
