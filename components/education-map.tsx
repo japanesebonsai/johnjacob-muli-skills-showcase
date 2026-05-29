@@ -11,11 +11,43 @@ type MapBundle = {
   Marker: typeof import("react-leaflet").Marker
   Popup: typeof import("react-leaflet").Popup
   TileLayer: typeof import("react-leaflet").TileLayer
+  useMap: typeof import("react-leaflet").useMap
   campusPin: DivIcon
+}
+
+function ResizeMap({
+  useMap,
+}: {
+  useMap: typeof import("react-leaflet").useMap
+}) {
+  const map = useMap()
+
+  useEffect(() => {
+    const invalidate = () => map.invalidateSize({ pan: false })
+    const container = map.getContainer()
+    const observer =
+      "ResizeObserver" in window ? new ResizeObserver(invalidate) : null
+    const timers = [0, 150, 350, 700, 1200, 2000].map((delay) =>
+      window.setTimeout(invalidate, delay),
+    )
+
+    observer?.observe(container)
+    window.addEventListener("resize", invalidate)
+    map.whenReady(invalidate)
+
+    return () => {
+      timers.forEach((timer) => window.clearTimeout(timer))
+      observer?.disconnect()
+      window.removeEventListener("resize", invalidate)
+    }
+  }, [map])
+
+  return null
 }
 
 export function EducationMap() {
   const [mapBundle, setMapBundle] = useState<MapBundle | null>(null)
+  const [mapKey, setMapKey] = useState(0)
 
   useEffect(() => {
     let isMounted = true
@@ -35,12 +67,13 @@ export function EducationMap() {
         Marker: reactLeaflet.Marker,
         Popup: reactLeaflet.Popup,
         TileLayer: reactLeaflet.TileLayer,
+        useMap: reactLeaflet.useMap,
         campusPin: divIcon({
           className: "",
-          html: '<div class="grid size-8 place-items-center rounded-full border-2 border-background bg-foreground text-background shadow-lg"><div class="size-2 rounded-full bg-background"></div></div>',
-          iconSize: [32, 32],
-          iconAnchor: [16, 32],
-          popupAnchor: [0, -32],
+          html: '<div class="relative grid size-10 place-items-center rounded-full border-2 border-background bg-[var(--play-red)] text-white shadow-[0_14px_30px_rgba(234,67,53,0.35)]"><div class="absolute inset-0 rounded-full border border-white/40"></div><div class="grid size-5 place-items-center rounded-full bg-white text-[var(--play-red)] text-[10px] font-bold">CIT</div><div class="absolute -bottom-1 size-3 rotate-45 rounded-[2px] border-b-2 border-r-2 border-background bg-[var(--play-red)]"></div></div>',
+          iconSize: [40, 44],
+          iconAnchor: [20, 44],
+          popupAnchor: [0, -42],
         }),
       })
     }
@@ -50,6 +83,14 @@ export function EducationMap() {
     return () => {
       isMounted = false
     }
+  }, [])
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setMapKey((current) => current + 1)
+    }, 250)
+
+    return () => window.clearTimeout(timer)
   }, [])
 
   const center: [number, number] = [
@@ -70,15 +111,18 @@ export function EducationMap() {
     )
   }
 
-  const { MapContainer, Marker, Popup, TileLayer, campusPin } = mapBundle
+  const { MapContainer, Marker, Popup, TileLayer, useMap, campusPin } =
+    mapBundle
 
   return (
     <MapContainer
+      key={mapKey}
       center={center}
       zoom={16}
       scrollWheelZoom={false}
-      className="h-full min-h-80 w-full"
+      className="z-0 h-full min-h-80 w-full"
     >
+      <ResizeMap useMap={useMap} />
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

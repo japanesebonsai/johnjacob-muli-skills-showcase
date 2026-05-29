@@ -18,7 +18,7 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 border-b bg-background/85 backdrop-blur-xl">
-      <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
+      <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-3 px-4 sm:gap-4 sm:px-6">
         <Link
           href="#home"
           className="flex items-center gap-2 text-sm font-semibold tracking-tight"
@@ -56,7 +56,7 @@ export function SiteHeader() {
               nativeButton={false}
               render={<Link href={github.href} />}
             >
-              <span className="hidden sm:inline">GitHub</span>
+              <span>GitHub</span>
               <ArrowUpRight aria-hidden="true" />
             </Button>
           ) : null}

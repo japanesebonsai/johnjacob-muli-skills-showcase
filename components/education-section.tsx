@@ -1,18 +1,19 @@
-import Link from "next/link"
-import { ArrowUpRight, GraduationCap, MapPin } from "lucide-react"
+import Image from "next/image"
+import { GraduationCap, Medal } from "lucide-react"
 
+import { EducationBoy } from "@/components/education-boy"
 import { EducationMap } from "@/components/education-map"
 import { SectionShell } from "@/components/section-shell"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { education } from "@/lib/portfolio-data"
+
+const educationHighlights = [
+  {
+    label: "Academic Standing",
+    value: education.standing,
+    icon: Medal,
+  },
+] as const
 
 export function EducationSection() {
   return (
@@ -21,44 +22,59 @@ export function EducationSection() {
       eyebrow="Education"
       title="Campus story, mapped."
       description="A quick look at the university shaping my computer science path in Cebu City."
+      headingAdornment={
+        <div className="grid size-28 place-items-center overflow-hidden rounded-xl border bg-white p-3 shadow-sm sm:size-32">
+          <Image
+            src="/cit-logo.png"
+            alt="Cebu Institute of Technology - University logo"
+            width={104}
+            height={104}
+            className="object-contain"
+          />
+        </div>
+      }
+      layout="stacked"
+      contentClassName="max-w-[96rem]"
     >
-      <Card className="border-foreground/10 shadow-sm">
-        <CardHeader>
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-            <div>
-              <Badge variant="outline" className="mb-3 rounded-lg">
-                <GraduationCap aria-hidden="true" />
-                {education.year}
-              </Badge>
-              <CardTitle>{education.school}</CardTitle>
-              <CardDescription className="mt-2">
-                {education.program} - {education.locationLabel}
-              </CardDescription>
+      <div className="relative space-y-4">
+        <div className="pointer-events-none absolute right-6 top-14 z-30 hidden -translate-y-full lg:block">
+          <EducationBoy />
+        </div>
+        <div className="flex flex-wrap gap-3">
+          <div className="inline-flex items-center gap-2 rounded-full border bg-card/80 px-3 py-2 text-sm font-medium shadow-sm backdrop-blur-sm">
+            <GraduationCap
+              className="size-4 text-[var(--play-blue)]"
+              aria-hidden="true"
+            />
+            {education.year} {education.program}
+          </div>
+          {educationHighlights.map((item) => {
+            const Icon = item.icon
+
+            return (
+              <div
+                key={item.label}
+                className="inline-flex items-center gap-2 rounded-full border bg-card/80 px-3 py-2 text-sm font-medium shadow-sm backdrop-blur-sm"
+              >
+                <Icon
+                  className="size-4 text-[var(--play-green)]"
+                  aria-hidden="true"
+                />
+                <span className="text-muted-foreground">{item.label}:</span>
+                <span>{item.value}</span>
+              </div>
+            )
+          })}
+        </div>
+
+        <Card className="border-foreground/10 shadow-sm">
+          <CardContent className="p-2">
+            <div className="relative z-0 min-h-80 overflow-hidden rounded-xl border bg-muted/30 lg:aspect-[16/5]">
+              <EducationMap />
             </div>
-            <Button
-              variant="outline"
-              size="sm"
-              nativeButton={false}
-              render={<Link href={education.website} />}
-            >
-              Visit CIT-U
-              <ArrowUpRight aria-hidden="true" />
-            </Button>
-          </div>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex items-start gap-3 rounded-xl border bg-muted/40 p-4">
-            <MapPin className="mt-0.5 size-5 text-muted-foreground" aria-hidden="true" />
-            <p className="text-sm leading-6 text-muted-foreground">
-              Click the map pin to view the school card and open the official
-              Cebu Institute of Technology - University website.
-            </p>
-          </div>
-          <div className="overflow-hidden rounded-xl border">
-            <EducationMap />
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      </div>
     </SectionShell>
   )
 }
