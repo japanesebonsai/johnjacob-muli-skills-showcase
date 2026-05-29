@@ -13,7 +13,7 @@ type ShoreFooterProps = {
 
 export function ShoreFooter({ className, full = false }: ShoreFooterProps) {
   const containerRef = useRef<HTMLDivElement>(null)
-  const animationData = useLazyLottieData("/shore.json", {
+  const animationData = useLazyLottieData("/contact-shore-background.json", {
     rootMargin: "900px 0px",
     targetRef: containerRef,
   })

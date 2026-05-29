@@ -1,16 +1,16 @@
 export const criticalHeroAssets = {
-  images: ["/profile-work.jpeg"],
-  lotties: ["/bubble.json", "/running-boy.json"],
-  desktopLotties: ["/car.json"],
+  images: ["/john-jacob-muli-profile.jpeg"],
+  lotties: ["/hero-bubble-background.json", "/intro-running-student.json"],
+  desktopLotties: ["/hero-road-trip-car.json"],
 } as const
 
 export const lowerSectionLotties = [
-  "/mirror.json",
-  "/city.json",
-  "/shore.json",
-  "/project-lotties/japan-bus.json",
-  "/project-lotties/chain.json",
-  "/project-lotties/wind.json",
-  "/project-lotties/stars.json",
+  "/skills-mirror-illustration.json",
+  "/experience-cityscape.json",
+  "/contact-shore-background.json",
+  "/project-lotties/project-kumpas-bus.json",
+  "/project-lotties/project-resq-chain.json",
+  "/project-lotties/project-stepsync-wind.json",
+  "/project-lotties/project-eva-stars.json",
 ] as const
 

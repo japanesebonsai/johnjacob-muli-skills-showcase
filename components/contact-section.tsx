@@ -1,10 +1,20 @@
 "use client"
 
 import Link from "next/link"
-import { type ReactNode, useActionState, useEffect, useRef } from "react"
+import {
+  type FormEvent,
+  type ReactNode,
+  useActionState,
+  useEffect,
+  useRef,
+  useState,
+} from "react"
+import Lottie from "lottie-react"
 import {
   AtSign,
   BottleWine,
+  CircleAlert,
+  FileDown,
   Mail,
   Send,
   Waves,
@@ -13,6 +23,7 @@ import { toast } from "sonner"
 
 import { sendContactMessage } from "@/app/actions/contact"
 import { SectionShell } from "@/components/section-shell"
+import { useLazyLottieData } from "@/components/use-lazy-lottie-data"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -60,8 +71,58 @@ const socialHelperText: Record<string, string> = {
   Email: "Direct inbox",
 }
 
+type ContactField = "name" | "email" | "message"
+type ContactErrors = Partial<Record<ContactField, string>>
+
+function isEmail(value: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+}
+
+function validateContactForm(formData: FormData): ContactErrors {
+  const name = String(formData.get("name") ?? "").trim()
+  const email = String(formData.get("email") ?? "").trim()
+  const message = String(formData.get("message") ?? "").trim()
+  const errors: ContactErrors = {}
+
+  if (!name) {
+    errors.name = "Tell me your name first."
+  }
+
+  if (!email) {
+    errors.email = "Add an email so I can reply."
+  } else if (!isEmail(email)) {
+    errors.email = "Use a valid email address so I can reply."
+  }
+
+  if (!message) {
+    errors.message = "Write a short message first."
+  } else if (message.length < 10) {
+    errors.message = "Write at least 10 characters so I have context."
+  }
+
+  return errors
+}
+
+function FieldError({ id, message }: { id: string; message?: string }) {
+  if (!message) {
+    return null
+  }
+
+  return (
+    <p
+      id={id}
+      className="flex items-center gap-1.5 text-xs font-medium text-destructive"
+    >
+      <CircleAlert className="size-3.5 shrink-0" aria-hidden="true" />
+      {message}
+    </p>
+  )
+}
+
 export function ContactSection() {
   const formRef = useRef<HTMLFormElement>(null)
+  const confettiData = useLazyLottieData("/contact-success-confetti.json")
+  const [errors, setErrors] = useState<ContactErrors>({})
   const [state, formAction, isPending] = useActionState(
     sendContactMessage,
     initialContactFormState,
@@ -81,6 +142,39 @@ export function ContactSection() {
     toast.error(state.message)
   }, [state])
 
+  function clearError(field: ContactField) {
+    setErrors((current) => {
+      if (!current[field]) {
+        return current
+      }
+
+      const next = { ...current }
+      delete next[field]
+      return next
+    })
+  }
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    const nextErrors = validateContactForm(new FormData(event.currentTarget))
+
+    if (Object.keys(nextErrors).length === 0) {
+      setErrors({})
+      return
+    }
+
+    event.preventDefault()
+    setErrors(nextErrors)
+
+    const firstError = Object.keys(nextErrors)[0] as ContactField | undefined
+    const firstField = firstError
+      ? event.currentTarget.elements.namedItem(firstError)
+      : null
+
+    if (firstField instanceof HTMLElement) {
+      firstField.focus()
+    }
+  }
+
   return (
     <SectionShell
       id="contact"
@@ -89,6 +183,20 @@ export function ContactSection() {
       description="A calm place for project notes, questions, and collaboration ideas."
       className="relative z-10 pb-0 sm:pb-0"
     >
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 z-[70] overflow-hidden"
+      >
+        {state.ok && state.confettiKey && confettiData ? (
+          <Lottie
+            key={state.confettiKey}
+            animationData={confettiData}
+            loop={false}
+            autoplay
+            className="contact-confetti h-full w-full"
+          />
+        ) : null}
+      </div>
       <div className="grid gap-4 lg:grid-cols-[1.08fr_0.92fr]">
         <Card className="relative overflow-hidden border-foreground/10 bg-background/90 shadow-sm">
           <div className="pointer-events-none absolute -right-12 -top-14 size-40 rounded-full bg-[var(--play-blue)]/8 blur-3xl" />
@@ -101,11 +209,17 @@ export function ContactSection() {
             </div>
             <CardTitle>Message bottle</CardTitle>
             <CardDescription>
-              Drop a short note and the page will confirm it with a toast.
+              Drop a short note for project inquiries, technical questions, or collaborative ideas.
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form ref={formRef} action={formAction} className="space-y-4">
+            <form
+              ref={formRef}
+              action={formAction}
+              noValidate
+              onSubmit={handleSubmit}
+              className="space-y-4"
+            >
               <label className="sr-only" htmlFor="contact-website">
                 Website
               </label>
@@ -119,41 +233,84 @@ export function ContactSection() {
               <div className="grid gap-4 sm:grid-cols-2">
                 <label className="block space-y-2">
                   <span className="text-sm font-medium">Name</span>
-                  <Input
-                    id="contact-name"
-                    name="name"
-                    defaultValue=""
-                    placeholder="Your name"
-                    autoComplete="name"
-                    disabled={isPending}
-                    required
-                    className="bg-background/70"
-                  />
+                  <div className="relative">
+                    <Input
+                      id="contact-name"
+                      name="name"
+                      defaultValue=""
+                      placeholder="Your name"
+                      autoComplete="name"
+                      disabled={isPending}
+                      aria-invalid={Boolean(errors.name)}
+                      aria-describedby={
+                        errors.name ? "contact-name-error" : undefined
+                      }
+                      onInput={() => clearError("name")}
+                      className="bg-background/70 pr-9"
+                    />
+                    {errors.name ? (
+                      <CircleAlert
+                        className="pointer-events-none absolute right-2.5 top-1/2 size-4 -translate-y-1/2 text-destructive"
+                        aria-hidden="true"
+                      />
+                    ) : null}
+                  </div>
+                  <FieldError id="contact-name-error" message={errors.name} />
                 </label>
                 <label className="block space-y-2">
                   <span className="text-sm font-medium">Email</span>
-                  <Input
-                    id="contact-email"
-                    name="email"
-                    type="email"
-                    defaultValue=""
-                    placeholder="you@example.com"
-                    autoComplete="email"
-                    disabled={isPending}
-                    required
-                    className="bg-background/70"
-                  />
+                  <div className="relative">
+                    <Input
+                      id="contact-email"
+                      name="email"
+                      type="email"
+                      defaultValue=""
+                      placeholder="you@example.com"
+                      autoComplete="email"
+                      disabled={isPending}
+                      aria-invalid={Boolean(errors.email)}
+                      aria-describedby={
+                        errors.email ? "contact-email-error" : undefined
+                      }
+                      onInput={() => clearError("email")}
+                      className="bg-background/70 pr-9"
+                    />
+                    {errors.email ? (
+                      <CircleAlert
+                        className="pointer-events-none absolute right-2.5 top-1/2 size-4 -translate-y-1/2 text-destructive"
+                        aria-hidden="true"
+                      />
+                    ) : null}
+                  </div>
+                  <FieldError id="contact-email-error" message={errors.email} />
                 </label>
               </div>
               <label className="block space-y-2">
                 <span className="text-sm font-medium">Message</span>
-                <Textarea
-                  name="message"
-                  defaultValue=""
-                  placeholder="Write a short message..."
-                  disabled={isPending}
-                  required
-                  className="min-h-32 resize-none bg-background/70"
+                <div className="relative">
+                  <Textarea
+                    id="contact-message"
+                    name="message"
+                    defaultValue=""
+                    placeholder="Write a short message..."
+                    disabled={isPending}
+                    aria-invalid={Boolean(errors.message)}
+                    aria-describedby={
+                      errors.message ? "contact-message-error" : undefined
+                    }
+                    onInput={() => clearError("message")}
+                    className="min-h-32 resize-none bg-background/70 pr-9"
+                  />
+                  {errors.message ? (
+                    <CircleAlert
+                      className="pointer-events-none absolute right-2.5 top-3 size-4 text-destructive"
+                      aria-hidden="true"
+                    />
+                  ) : null}
+                </div>
+                <FieldError
+                  id="contact-message-error"
+                  message={errors.message}
                 />
               </label>
               <div className="flex flex-col gap-3">
@@ -201,6 +358,22 @@ export function ContactSection() {
             </Link>
 
             <div className="grid gap-2">
+              <Link
+                href={profile.resume}
+                target="_blank"
+                rel="noreferrer"
+                className="group flex min-h-12 items-center gap-3 rounded-xl border bg-background/70 px-3 text-sm font-medium transition-all hover:-translate-y-0.5 hover:border-foreground/25 hover:bg-background"
+              >
+                <span className="grid size-8 shrink-0 place-items-center rounded-lg border bg-muted/70 text-foreground">
+                  <FileDown className="size-4" aria-hidden="true" />
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block leading-tight">Resume</span>
+                  <span className="block text-xs font-normal text-muted-foreground">
+                    Download PDF
+                  </span>
+                </span>
+              </Link>
               {socialLinks.map((link) => (
                 <Link
                   key={link.href}

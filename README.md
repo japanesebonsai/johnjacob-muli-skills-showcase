@@ -6,7 +6,7 @@ A creative personal portfolio by **John Jacob Muli**, a third-year BS Computer S
 
 This portfolio is designed to feel personal without losing clarity. It uses playful motion, custom illustrations, map interaction, project storytelling, and responsive layouts to show both technical range and visual taste.
 
-**Live site:** johnjacobmuli.vercel.app
+**Live site:** [johnjacobmuli.vercel.app](https://johnjacobmuli.vercel.app)
 
 ## Highlights
 
@@ -46,16 +46,28 @@ This portfolio is designed to feel personal without losing clarity. It uses play
 
 ## Getting Started
 
-Install dependencies:
+Install dependencies with Bun:
 
 ```bash
 bun install
 ```
 
-Run the development server:
+Or install dependencies with npm:
+
+```bash
+npm install
+```
+
+Run the development server with Bun:
 
 ```bash
 bun run dev
+```
+
+Or run it with npm:
+
+```bash
+npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
@@ -92,10 +104,22 @@ Run lint:
 bun run lint
 ```
 
+Or with npm:
+
+```bash
+npm run lint
+```
+
 Run a production build:
 
 ```bash
 bun run build
+```
+
+Or with npm:
+
+```bash
+npm run build
 ```
 
 ## Project Structure
@@ -126,16 +150,6 @@ public/
   project-lotties/
   projects/
 ```
-
-## Deployment
-
-The project is ready for Vercel:
-
-1. Push the repository to GitHub.
-2. Import the repository into Vercel.
-3. Set the framework preset to Next.js.
-4. Add the Resend environment variables if contact form delivery is needed.
-5. Deploy.
 
 ## Notes
 

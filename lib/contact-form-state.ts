@@ -1,6 +1,7 @@
 export type ContactFormState = {
   ok: boolean
   message: string
+  confettiKey?: number
   fields?: {
     name?: string
     email?: string

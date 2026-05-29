@@ -6,7 +6,7 @@ import type { LottieRefCurrentProps } from "lottie-react"
 import { usePathname } from "next/navigation"
 
 import { criticalHeroAssets, lowerSectionLotties } from "@/lib/asset-preloads"
-import runningBoyAnimation from "@/public/running-boy.json"
+import runningBoyAnimation from "@/public/intro-running-student.json"
 
 const MIN_LOADER_MS = 1800
 const MAX_LOADER_MS = 3000

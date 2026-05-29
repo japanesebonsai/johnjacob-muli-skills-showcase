@@ -9,7 +9,7 @@ export function HeroBubbleBackground() {
   useEffect(() => {
     let isMounted = true
 
-    fetch("/bubble.json")
+    fetch("/hero-bubble-background.json")
       .then((response) => response.json())
       .then((data) => {
         if (isMounted) {

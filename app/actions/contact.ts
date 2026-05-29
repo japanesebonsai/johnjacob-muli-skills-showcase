@@ -38,6 +38,7 @@ export async function sendContactMessage(
     return {
       ok: true,
       message: "Thanks! Your message has been received.",
+      confettiKey: Date.now(),
     }
   }
 
@@ -126,5 +127,6 @@ export async function sendContactMessage(
   return {
     ok: true,
     message: "Thanks! Your message has been sent.",
+    confettiKey: Date.now(),
   }
 }

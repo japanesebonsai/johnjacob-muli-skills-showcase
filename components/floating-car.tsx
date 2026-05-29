@@ -22,7 +22,7 @@ export function FloatingCar() {
     }
   }, [])
 
-  const animationData = useLazyLottieData("/car.json", {
+  const animationData = useLazyLottieData("/hero-road-trip-car.json", {
     enabled: isDesktop,
     targetRef: containerRef,
   })

@@ -101,14 +101,14 @@ const desktopSkillPositions = [
 const desktopSkillPositionOverrides: Partial<Record<SkillName, { x: number; y: number }>> = {
   Vercel: { x: 52, y: 86 },
   Figma: { x: 18, y: 84 },
-  "shadcn/ui": { x: 34, y: 31 },
+  "shadcn/ui": { x: 34, y: 40 },
   Django: { x: 64, y: 49 },
   "Android SDK": { x: 38, y: 87 },
 }
 
 export function SkillsMirror() {
   const mirrorRef = useRef<HTMLDivElement>(null)
-  const animationData = useLazyLottieData("/mirror.json", {
+  const animationData = useLazyLottieData("/skills-mirror-illustration.json", {
     targetRef: mirrorRef,
   })
   const [isDesktop, setIsDesktop] = useState(false)
