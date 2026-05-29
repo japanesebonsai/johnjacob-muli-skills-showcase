@@ -1,6 +1,6 @@
-# John Jacob Muli Skills Showcase
+# John Jacob Muli - Skills Showcase
 
-A creative personal portfolio for **John Jacob Muli**, a third-year BS Computer Science student at Cebu Institute of Technology - University. The site presents education, skills, projects, experience, and contact details through an interactive single-page experience built for the IT & Operations Skills Showcase Challenge.
+A creative personal portfolio by **John Jacob Muli**, a third-year BS Computer Science student at Cebu Institute of Technology - University. The site presents education, skills, projects, experience, and contact details through an interactive single-page experience built for the IT & Operations Skills Showcase Challenge.
 
 ## Overview
 
