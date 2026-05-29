@@ -27,10 +27,12 @@ function applyTheme(theme: Theme, resolvedTheme: ResolvedTheme) {
   const isDark = resolvedTheme === "dark"
 
   document.documentElement.classList.toggle("dark", isDark)
+  document.documentElement.classList.toggle("light", !isDark)
   document.documentElement.style.colorScheme = resolvedTheme
 
   try {
     localStorage.setItem("theme", theme)
+    document.cookie = `theme=${theme}; path=/; max-age=31536000; samesite=lax`
   } catch {
     // Ignore blocked storage.
   }
@@ -38,8 +40,12 @@ function applyTheme(theme: Theme, resolvedTheme: ResolvedTheme) {
 
 export function ThemeProvider({ children }: React.PropsWithChildren) {
   const [theme, setThemeState] = React.useState<Theme>("system")
-  const [resolvedTheme, setResolvedTheme] =
-    React.useState<ResolvedTheme>("light")
+  const [resolvedTheme, setResolvedTheme] = React.useState<ResolvedTheme>(() =>
+    typeof document !== "undefined" &&
+    document.documentElement.classList.contains("dark")
+      ? "dark"
+      : "light",
+  )
 
   React.useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)")
@@ -60,9 +66,18 @@ export function ThemeProvider({ children }: React.PropsWithChildren) {
 
     try {
       const value = localStorage.getItem("theme")
+      const cookieValue = document.cookie.match(
+        /(?:^|; )theme=(dark|light|system)(?:;|$)/,
+      )?.[1]
 
       if (value === "light" || value === "dark" || value === "system") {
         storedTheme = value
+      } else if (
+        cookieValue === "light" ||
+        cookieValue === "dark" ||
+        cookieValue === "system"
+      ) {
+        storedTheme = cookieValue
       }
     } catch {
       storedTheme = "system"
