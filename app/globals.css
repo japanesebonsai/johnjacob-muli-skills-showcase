@@ -148,6 +148,7 @@
   html {
     @apply scroll-smooth font-sans;
     overflow-x: clip;
+    scroll-padding-top: 5.5rem;
   }
   ::selection {
     background: color-mix(in oklch, var(--portfolio-warm) 36%, transparent);

@@ -1,6 +1,6 @@
-import Link from "next/link"
 import { ArrowDown, Mail } from "lucide-react"
 
+import { AnchorScrollLink } from "@/components/anchor-scroll-link"
 import { AnimatedSection } from "@/components/animated-section"
 import { FloatingCar } from "@/components/floating-car"
 import { HeroBubbleBackground } from "@/components/hero-bubble-background"
@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 
 export function HeroSection() {
   return (
-    <section id="home" className="relative isolate scroll-mt-24 overflow-hidden border-b">
+    <section id="home" className="relative isolate overflow-hidden border-b">
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_15%_20%,color-mix(in_oklch,var(--play-blue)_16%,transparent),transparent_28%),radial-gradient(circle_at_82%_18%,color-mix(in_oklch,var(--play-yellow)_20%,transparent),transparent_24%),radial-gradient(circle_at_70%_82%,color-mix(in_oklch,var(--play-green)_14%,transparent),transparent_28%)]" />
       <HeroBubbleBackground />
       <FloatingCar />
@@ -48,7 +48,7 @@ export function HeroSection() {
             <Button
               size="lg"
               nativeButton={false}
-              render={<Link href="#projects" />}
+              render={<AnchorScrollLink href="#projects" />}
             >
               View Projects
               <ArrowDown aria-hidden="true" />
@@ -57,7 +57,7 @@ export function HeroSection() {
               variant="outline"
               size="lg"
               nativeButton={false}
-              render={<Link href="#contact" />}
+              render={<AnchorScrollLink href="#contact" />}
             >
               Contact Me
               <Mail aria-hidden="true" />
