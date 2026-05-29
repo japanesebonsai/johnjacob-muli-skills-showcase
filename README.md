@@ -6,7 +6,7 @@ A creative personal portfolio by **John Jacob Muli**, a third-year BS Computer S
 
 This portfolio is designed to feel personal without losing clarity. It uses playful motion, custom illustrations, map interaction, project storytelling, and responsive layouts to show both technical range and visual taste.
 
-**Live site:** johnjacobmuli.vercel.app
+**Live site:** [johnjacobmuli.vercel.app](johnjacobmuli.vercel.app)
 
 ## Highlights
 
