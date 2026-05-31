@@ -1,6 +1,6 @@
 export const criticalHeroAssets = {
-  images: ["/john-jacob-muli-profile.jpeg"],
-  lotties: ["/hero-bubble-background.json", "/intro-running-student.json"],
+  images: [],
+  lotties: ["/hero-bubble-background.json"],
   desktopLotties: ["/hero-road-trip-car.json"],
 } as const
 

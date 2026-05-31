@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import type { DivIcon } from "leaflet"
 
 import { Button } from "@/components/ui/button"
@@ -46,11 +46,40 @@ function ResizeMap({
 }
 
 export function EducationMap() {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [shouldLoadMap, setShouldLoadMap] = useState(false)
   const [mapBundle, setMapBundle] = useState<MapBundle | null>(null)
   const [mapKey, setMapKey] = useState(0)
 
   useEffect(() => {
+    const target = containerRef.current
+
+    if (!target || typeof IntersectionObserver === "undefined") {
+      setShouldLoadMap(true)
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoadMap(true)
+          observer.disconnect()
+        }
+      },
+      { rootMargin: "350px 0px" },
+    )
+
+    observer.observe(target)
+
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
     let isMounted = true
+
+    if (!shouldLoadMap) {
+      return
+    }
 
     async function loadMap() {
       const [{ divIcon }, reactLeaflet] = await Promise.all([
@@ -83,15 +112,19 @@ export function EducationMap() {
     return () => {
       isMounted = false
     }
-  }, [])
+  }, [shouldLoadMap])
 
   useEffect(() => {
+    if (!shouldLoadMap) {
+      return
+    }
+
     const timer = window.setTimeout(() => {
       setMapKey((current) => current + 1)
     }, 250)
 
     return () => window.clearTimeout(timer)
-  }, [])
+  }, [shouldLoadMap])
 
   const center: [number, number] = [
     education.coordinates.lat,
@@ -100,11 +133,16 @@ export function EducationMap() {
 
   if (!mapBundle) {
     return (
-      <div className="grid h-full min-h-80 w-full place-items-center bg-muted/40 p-6 text-center">
+      <div
+        ref={containerRef}
+        className="grid h-full min-h-80 w-full place-items-center bg-muted/40 p-6 text-center"
+      >
         <div>
           <p className="text-sm font-medium">Loading campus map</p>
           <p className="mt-2 text-sm text-muted-foreground">
-            Preparing the CIT-U pin and map tiles.
+            {shouldLoadMap
+              ? "Preparing the CIT-U pin and map tiles."
+              : "Map will load as this section comes into view."}
           </p>
         </div>
       </div>
@@ -115,6 +153,7 @@ export function EducationMap() {
     mapBundle
 
   return (
+    <div ref={containerRef} className="h-full min-h-80 w-full">
     <MapContainer
       key={mapKey}
       center={center}
@@ -151,5 +190,6 @@ export function EducationMap() {
         </Popup>
       </Marker>
     </MapContainer>
+    </div>
   )
 }
