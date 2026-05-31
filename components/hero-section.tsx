@@ -14,7 +14,7 @@ export function HeroSection() {
       <HeroBubbleBackground />
       <FloatingCar />
       <div className="relative z-10 mx-auto grid w-full max-w-6xl items-center gap-8 px-4 py-14 sm:px-6 lg:min-h-[calc(100vh-4rem)] lg:grid-cols-[1.15fr_0.85fr] lg:py-20">
-        <AnimatedSection className="max-w-4xl">
+        <div className="max-w-4xl">
           <h1 className="mt-6 font-semibold leading-[0.88] tracking-tight text-balance">
             <span className="relative block text-[clamp(5rem,18vw,14rem)] text-foreground sm:text-[clamp(6rem,18vw,14rem)]">
               <span className="absolute -left-3 top-4 h-6 w-6 rounded-full bg-[var(--play-blue)] sm:h-8 sm:w-8 lg:-left-5 lg:top-8 lg:h-10 lg:w-10" />
@@ -63,7 +63,7 @@ export function HeroSection() {
               <Mail aria-hidden="true" />
             </Button>
           </div>
-        </AnimatedSection>
+        </div>
 
         <AnimatedSection delay={0.12} className="hidden lg:block">
           <HeroAvatarCard />

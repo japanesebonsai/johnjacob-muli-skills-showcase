@@ -5,7 +5,6 @@ import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 
 import { ThemeProvider } from "@/components/theme-provider";
-import { IntroLoader } from "@/components/intro-loader";
 import { Toaster } from "@/components/ui/sonner";
 
 import "leaflet/dist/leaflet.css";
@@ -97,23 +96,9 @@ html.light body {
   } catch {}
 })();`}
         </Script>
-        <link rel="preload" href="/john-jacob-muli-profile.jpeg" as="image" />
-        <link
-          rel="preload"
-          href="/hero-bubble-background.json"
-          as="fetch"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
-          href="/intro-running-student.json"
-          as="fetch"
-          crossOrigin="anonymous"
-        />
       </head>
       <body className="flex min-h-full flex-col">
         <ThemeProvider>
-          <IntroLoader />
           {children}
           <Toaster richColors closeButton />
         </ThemeProvider>

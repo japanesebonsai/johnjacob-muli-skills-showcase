@@ -69,8 +69,6 @@ export function ExperienceSection() {
                       fill
                       sizes="(min-width: 640px) 112px, 80px"
                       className="rounded-lg object-contain"
-                      quality={100}
-                      unoptimized
                     />
                   </div>
                 </div>

@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import type { DivIcon } from "leaflet"
 
 import { Button } from "@/components/ui/button"
@@ -46,11 +46,40 @@ function ResizeMap({
 }
 
 export function EducationMap() {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [shouldLoadMap, setShouldLoadMap] = useState(false)
   const [mapBundle, setMapBundle] = useState<MapBundle | null>(null)
   const [mapKey, setMapKey] = useState(0)
 
   useEffect(() => {
+    const target = containerRef.current
+
+    if (!target || typeof IntersectionObserver === "undefined") {
+      setShouldLoadMap(true)
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoadMap(true)
+          observer.disconnect()
+        }
+      },
+      { rootMargin: "350px 0px" },
+    )
+
+    observer.observe(target)
+
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
     let isMounted = true
+
+    if (!shouldLoadMap) {
+      return
+    }
 
     async function loadMap() {
       const [{ divIcon }, reactLeaflet] = await Promise.all([
@@ -83,15 +112,19 @@ export function EducationMap() {
     return () => {
       isMounted = false
     }
-  }, [])
+  }, [shouldLoadMap])
 
   useEffect(() => {
+    if (!shouldLoadMap) {
+      return
+    }
+
     const timer = window.setTimeout(() => {
       setMapKey((current) => current + 1)
     }, 250)
 
     return () => window.clearTimeout(timer)
-  }, [])
+  }, [shouldLoadMap])
 
   const center: [number, number] = [
     education.coordinates.lat,
@@ -100,11 +133,16 @@ export function EducationMap() {
 
   if (!mapBundle) {
     return (
-      <div className="grid h-full min-h-80 w-full place-items-center bg-muted/40 p-6 text-center">
+      <div
+        ref={containerRef}
+        className="grid h-full min-h-80 w-full place-items-center bg-muted/40 p-6 text-center"
+      >
         <div>
           <p className="text-sm font-medium">Loading campus map</p>
           <p className="mt-2 text-sm text-muted-foreground">
-            Preparing the CIT-U pin and map tiles.
+            {shouldLoadMap
+              ? "Preparing the CIT-U pin and map tiles."
+              : "Map will load as this section comes into view."}
           </p>
         </div>
       </div>
@@ -115,41 +153,43 @@ export function EducationMap() {
     mapBundle
 
   return (
-    <MapContainer
-      key={mapKey}
-      center={center}
-      zoom={16}
-      scrollWheelZoom={false}
-      className="z-0 h-full min-h-80 w-full"
-    >
-      <ResizeMap useMap={useMap} />
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <Marker position={center} icon={campusPin}>
-        <Popup minWidth={240}>
-          <div className="space-y-3">
-            <div>
-              <p className="text-sm font-semibold">{education.school}</p>
-              <p className="mt-1 text-xs text-muted-foreground">
-                {education.program}, {education.year}
+    <div ref={containerRef} className="h-full min-h-80 w-full">
+      <MapContainer
+        key={mapKey}
+        center={center}
+        zoom={16}
+        scrollWheelZoom={false}
+        className="z-0 h-full min-h-80 w-full"
+      >
+        <ResizeMap useMap={useMap} />
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <Marker position={center} icon={campusPin}>
+          <Popup minWidth={240}>
+            <div className="space-y-3">
+              <div>
+                <p className="text-sm font-semibold">{education.school}</p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {education.program}, {education.year}
+                </p>
+              </div>
+              <p className="text-xs leading-5 text-muted-foreground">
+                A Cebu City university known for engineering, technology,
+                business, and innovation.
               </p>
+              <Button
+                size="sm"
+                nativeButton={false}
+                render={<a href={education.website} />}
+              >
+                Visit CIT-U
+              </Button>
             </div>
-            <p className="text-xs leading-5 text-muted-foreground">
-              A Cebu City university known for engineering, technology, business,
-              and innovation.
-            </p>
-            <Button
-              size="sm"
-              nativeButton={false}
-              render={<a href={education.website} />}
-            >
-              Visit CIT-U
-            </Button>
-          </div>
-        </Popup>
-      </Marker>
-    </MapContainer>
+          </Popup>
+        </Marker>
+      </MapContainer>
+    </div>
   )
 }

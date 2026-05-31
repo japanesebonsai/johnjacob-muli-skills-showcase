@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { GitFork, Star } from "lucide-react"
 
 type GitHubRepoMetaProps = {
@@ -28,10 +28,39 @@ function formatUpdatedDate(value: string) {
 }
 
 export function GitHubRepoMeta({ repo }: GitHubRepoMetaProps) {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [shouldLoadMeta, setShouldLoadMeta] = useState(false)
   const [meta, setMeta] = useState<RepoMeta | null>(null)
 
   useEffect(() => {
+    const target = containerRef.current
+
+    if (!target || typeof IntersectionObserver === "undefined") {
+      setShouldLoadMeta(true)
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoadMeta(true)
+          observer.disconnect()
+        }
+      },
+      { rootMargin: "500px 0px" },
+    )
+
+    observer.observe(target)
+
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
     let isMounted = true
+
+    if (!shouldLoadMeta) {
+      return
+    }
 
     async function loadRepo() {
       try {
@@ -60,11 +89,14 @@ export function GitHubRepoMeta({ repo }: GitHubRepoMetaProps) {
     return () => {
       isMounted = false
     }
-  }, [repo])
+  }, [repo, shouldLoadMeta])
 
   if (!meta) {
     return (
-      <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">
+      <div
+        ref={containerRef}
+        className="flex flex-wrap gap-2 text-xs text-muted-foreground"
+      >
         <span className="rounded-full border bg-background/75 px-2.5 py-1">
           Selected GitHub repo
         </span>
@@ -75,7 +107,10 @@ export function GitHubRepoMeta({ repo }: GitHubRepoMetaProps) {
   const updated = formatUpdatedDate(meta.updated_at)
 
   return (
-    <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">
+    <div
+      ref={containerRef}
+      className="flex flex-wrap gap-2 text-xs text-muted-foreground"
+    >
       {meta.language ? (
         <span className="rounded-full border bg-background/75 px-2.5 py-1">
           {meta.language}
