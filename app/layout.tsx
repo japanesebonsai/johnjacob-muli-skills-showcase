@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { cookies } from "next/headers";
 import Script from "next/script";
 
+import { IntroLoader } from "@/components/intro-loader";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -98,6 +99,7 @@ html.light body {
       </head>
       <body className="flex min-h-full flex-col">
         <ThemeProvider>
+          <IntroLoader />
           {children}
           <Toaster richColors closeButton />
         </ThemeProvider>
