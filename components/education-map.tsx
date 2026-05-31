@@ -154,42 +154,42 @@ export function EducationMap() {
 
   return (
     <div ref={containerRef} className="h-full min-h-80 w-full">
-    <MapContainer
-      key={mapKey}
-      center={center}
-      zoom={16}
-      scrollWheelZoom={false}
-      className="z-0 h-full min-h-80 w-full"
-    >
-      <ResizeMap useMap={useMap} />
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <Marker position={center} icon={campusPin}>
-        <Popup minWidth={240}>
-          <div className="space-y-3">
-            <div>
-              <p className="text-sm font-semibold">{education.school}</p>
-              <p className="mt-1 text-xs text-muted-foreground">
-                {education.program}, {education.year}
+      <MapContainer
+        key={mapKey}
+        center={center}
+        zoom={16}
+        scrollWheelZoom={false}
+        className="z-0 h-full min-h-80 w-full"
+      >
+        <ResizeMap useMap={useMap} />
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <Marker position={center} icon={campusPin}>
+          <Popup minWidth={240}>
+            <div className="space-y-3">
+              <div>
+                <p className="text-sm font-semibold">{education.school}</p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {education.program}, {education.year}
+                </p>
+              </div>
+              <p className="text-xs leading-5 text-muted-foreground">
+                A Cebu City university known for engineering, technology,
+                business, and innovation.
               </p>
+              <Button
+                size="sm"
+                nativeButton={false}
+                render={<a href={education.website} />}
+              >
+                Visit CIT-U
+              </Button>
             </div>
-            <p className="text-xs leading-5 text-muted-foreground">
-              A Cebu City university known for engineering, technology, business,
-              and innovation.
-            </p>
-            <Button
-              size="sm"
-              nativeButton={false}
-              render={<a href={education.website} />}
-            >
-              Visit CIT-U
-            </Button>
-          </div>
-        </Popup>
-      </Marker>
-    </MapContainer>
+          </Popup>
+        </Marker>
+      </MapContainer>
     </div>
   )
 }
